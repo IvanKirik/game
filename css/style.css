@@ -1,0 +1,22 @@
+.canvas-container {
+    position: relative;
+    width: 100%;
+}
+
+canvas {
+    width: 100%;
+}
+
+.input-name {
+    left: 14%;
+    top: 34%;
+    border: 0;
+    position: absolute;
+    width: 70%;
+    height: 2%;
+    color: #4f3604;
+    font-family: "Comic Sans MS", sans-serif;
+    font-size: 40px;
+    background: 0;
+    outline: none;
+}
