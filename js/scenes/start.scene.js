@@ -1,5 +1,6 @@
 import {listUserScene} from "./listUsers.scene.js";
-import {app} from "../app.js";
+import {render} from "../render.js";
+import {SCENES} from "../constants/scenes.constants.js";
 
 export class StartScene {
 
@@ -15,8 +16,6 @@ export class StartScene {
         this.sprites = sprites;
 
         this.input = input;
-
-        this.buttonStart = document.getElementById('startScene');
 
         this.data = {
             board: {
@@ -47,7 +46,6 @@ export class StartScene {
                 y: canvas.height - sprites.board.height + 90
             }
         }
-        this.c = 0;
     }
 
     update() {
@@ -57,26 +55,29 @@ export class StartScene {
                 && this.mouse.x < buttonX + 143
                 && this.mouse.y > this.data.button.y - 30
                 && this.mouse.y < this.data.button.y + 30) {
-                console.log(1)
-                listUserScene.setUser(this.input.value);
-                this.buttonStart.click();
+                if(this.input.value) {
+                    listUserScene.setUser(this.input.value);
+                    render.transitionMethod(SCENES.GAME_ONE)
+                } else {
+                    alert('Введите ваше имя!')
+                }
             }
         }
 
-        if(this.c < 1) {
-            console.log(window.innerWidth, window.innerHeight)
-            console.log(app.canvas.width, app.canvas.height)
-            console.log(buttonX, this.data.button.y)
-            this.c++;
+        if (this.mouse.tap) {
+            if (this.mouse.touchX > buttonX
+                && this.mouse.touchX < buttonX + 143
+                && this.mouse.touchY > this.data.button.y - 30
+                && this.mouse.touchY < this.data.button.y + 30) {
+                if(this.input.value) {
+                    listUserScene.setUser(this.input.value);
+                    render.transitionMethod(SCENES.LIST_USERS)
+                } else {
+                    alert('Введите ваше имя!')
+                }
+            }
         }
 
-        if (this.mouse.touchX > buttonX
-            && this.mouse.touchX < buttonX + 143
-            && this.mouse.touchY > this.data.button.y - 30
-            && this.mouse.touchY < this.data.button.y + 30) {
-            listUserScene.setUser(this.input.value);
-            this.buttonStart.click();
-        }
     }
 
     render(opacity) {

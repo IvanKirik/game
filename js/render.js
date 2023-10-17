@@ -14,7 +14,7 @@ export class Render {
 
     positionXAliveBackground = 0;
     positionX2AliveBackground = 0;
-    speed = 1;
+    speed = 0.6;
 
     backgroundOpacity = 0.4;
     elementOpacity = 1;
@@ -165,10 +165,20 @@ export class Render {
     }
 
     transitionMethod(scene) {
+        this.disabledInput(scene)
         this.transition = true;
         setTimeout(() => {
             this.transition = false;
             this.currentScene = scene;
+            if (this.currentScene === SCENES.LIST_USERS) {
+                setTimeout(() => {
+                    this.transition = true;
+                    setTimeout(() => {
+                        this.transition = false;
+                        this.currentScene = SCENES.GAME_ONE
+                    }, this.duration)
+                }, 2000)
+            }
         }, this.duration)
     }
 }

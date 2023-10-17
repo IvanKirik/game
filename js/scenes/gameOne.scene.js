@@ -96,6 +96,8 @@ export class GameOneScene {
 
         //Обрабатываем клики по вазам
         if(this.mouse.tap && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
+            this.data.hammer.x = this.mouse.touchX;
+            this.data.hammer.y = this.mouse.touchY;
             this.data.cells.forEach((cell, index) => {
                 if (this.mouse.touchX > cell.x
                     && this.mouse.touchX < cell.x + this.sprites.cell.width
@@ -106,11 +108,12 @@ export class GameOneScene {
                         cell.background = this.sprites.goldCell;
                         const vase = `vase_drop_${cell.id}`
                         cell.vase = this.sprites[vase];
+                        this.data.cells[index].grass = true;
                         this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
                         this.user = true;
                         setTimeout(() => {
+                            this.currentUserName = this.data.users.listUsers[4].user;
                             this.data.fatima.text.content = this.data.fatima.text.content_2;
-
                             if(!this.userEnd && this.user) {
                                 this.gameEndBot(3000, this.random(this.cellsIndexes, this.cellsCheck), 4);
                             }
@@ -131,18 +134,17 @@ export class GameOneScene {
                         cell.background = this.sprites.goldCell;
                         const vase = `vase_drop_${cell.id}`
                         cell.vase = this.sprites[vase];
+                        this.data.cells[index].grass = true;
                         this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
                         this.user = true;
                         setTimeout(() => {
+                            this.currentUserName = this.data.users.listUsers[4].user;
                             this.data.fatima.text.content = this.data.fatima.text.content_2;
 
                             if(!this.userEnd && this.user) {
                                 this.gameEndBot(3000, this.random(this.cellsIndexes, this.cellsCheck), 4);
                             }
                         }, 500)
-
-                    } else {
-                        console.log('Не попал!')
                     }
                 }
             })
@@ -152,6 +154,11 @@ export class GameOneScene {
         if (this.mouse.over && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
             this.data.hammer.x = this.mouse.x;
             this.data.hammer.y = this.mouse.y;
+        }
+
+        if (this.mouse.touchMove && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
+            this.data.hammer.x = this.mouse.touchX;
+            this.data.hammer.y = this.mouse.touchY;
         }
 
         //описывает логику игры ботами
@@ -224,6 +231,11 @@ export class GameOneScene {
                 cell.vase,
                 ((this.sprites.cell.width - cell.vase.width) / 2) + cell.x,
                 ((this.sprites.cell.height - cell.vase.height) / 2) + cell.y);
+            if(cell.grass) {
+                this.ctx.drawImage(this.sprites.grass,
+                    ((this.sprites.cell.width - cell.vase.width) / 2) + cell.x,
+                    ((this.sprites.cell.height - cell.vase.height) / 2) + cell.y + 20)
+            }
         })
 
         this.setHammer(this.data.hammer.img, this.data.hammer.x, this.data.hammer.y);
@@ -324,16 +336,13 @@ export class GameOneScene {
             this.transHammer(number);
             if (this.check(number)) {
                 setTimeout(() => {
-
-                    this.cells[number].background = this.sprites.redCell;
+                    this.cells[number].background = this.sprites.goldCell;
                     const vase = `vase_drop_${this.cells[number].id}`
                     this.cells[number].vase = this.sprites[vase];
+                    this.cells[number].grass = true;
                     this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2)
-
                     setTimeout(() => {
-
                         render.transitionMethod(SCENES.GAME_TWO);
-
                     }, 1000)
                 }, 1000)
             }

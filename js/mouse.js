@@ -9,7 +9,7 @@ export class Mouse {
 
         this.touchX = 0;
         this.touchY = 0;
-
+        this.touchMove = false;
         this.tap = false;
 
         this.x = 0;
@@ -29,8 +29,9 @@ export class Mouse {
         this.element.addEventListener('mouseleave', this.mouseleaveHandler.bind(this));
         this.element.addEventListener('mousedown', this.mousedownHandler.bind(this));
         this.element.addEventListener('mouseup', this.mouseupHandler.bind(this));
-        this.element.addEventListener('touchstart', this.handleTouchStart.bind(this));
 
+        this.element.addEventListener('touchstart', this.handleTouchStart.bind(this));
+        this.element.addEventListener('touchmove', this.handleTouchMove.bind(this));
     }
 
     mouseTick() {
@@ -50,9 +51,16 @@ export class Mouse {
 
         this.touchX = this.touch.clientX * scaleX; // координата x на канвасе
         this.touchY = this.touch.clientY * scaleY; // координата y на канвасе
+    }
 
-        console.log(`X: ${this.touchX}. Y: ${this.touchY}`)
+    handleTouchMove(event) {
+        this.touch = event.touches[0];
+        this.touchMove = !!this.touch;
+        let scaleX = app.canvas.width / this.width; // отношение ширины канваса к ширине экрана
+        let scaleY = app.canvas.height / this.height; // отношение высоты канваса к высоте экрана
 
+        this.touchX = this.touch.clientX * scaleX; // координата x на канвасе
+        this.touchY = this.touch.clientY * scaleY; // координата y на канвасе
     }
 
     mouseenterHandler(event) {

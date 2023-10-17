@@ -137,7 +137,8 @@ export class App {
                 y: offsetY + cellSize * (col - 1),
                 vase,
                 background: sprites.cell,
-                price: !!(cells.length % 2)
+                price: !!(cells.length % 2),
+                grass: false
             };
         }
         return createCElls();

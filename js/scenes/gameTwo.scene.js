@@ -184,8 +184,10 @@ export class GameTwoScene {
         this.ctx.fillText(this.data.text.title_2.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_2.content).width) / 2, this.data.text.title_2.y);
         this.ctx.fillText(this.data.text.title_3.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_3.content).width) / 2, this.data.text.title_3.y);
 
+
         this.ctx.font = this.data.text.users.font;
         this.ctx.fillStyle = this.data.text.users.color;
+        this.ctx.fillText(this.data.text.users.listUsers[3].user, (this.canvas.width - this.ctx.measureText(this.data.text.users.listUsers[3].user).width) / 2, this.data.text.title_2.y + 30);
         this.ctx.fillText(`${this.data.text.users.listUsers[3].row}. ${this.data.text.users.listUsers[3].user}`, (this.canvas.width - this.ctx.measureText(this.data.text.users.listUsers[3].user).width) / 2, this.data.text.users.user1Y);
         this.ctx.fillText(`${this.data.text.users.listUsers[4].row}. ${this.data.text.users.listUsers[4].user}`, (this.canvas.width - this.ctx.measureText(this.data.text.users.listUsers[4].user).width) / 2, this.data.text.users.user2Y);
 
