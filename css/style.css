@@ -9,14 +9,14 @@ canvas {
 
 .input-name {
     left: 14%;
-    top: 34%;
+    top: 32%;
     border: 0;
     position: absolute;
-    width: 70%;
-    height: 2%;
+    width: 72%;
+    height: 4%;
     color: #4f3604;
     font-family: "Comic Sans MS", sans-serif;
-    font-size: 40px;
+    font-size: 70px;
     background: 0;
     outline: none;
 }

@@ -95,6 +95,31 @@ export class GameOneScene {
     update() {
 
         //Обрабатываем клики по вазам
+        if(this.mouse.tap && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
+            this.data.cells.forEach((cell, index) => {
+                if (this.mouse.touchX > cell.x
+                    && this.mouse.touchX < cell.x + this.sprites.cell.width
+                    && this.mouse.touchY > cell.y
+                    && this.mouse.touchY < cell.y + this.sprites.cell.width) {
+                    if (index !== 2 && index !== 4 && index !== 5) {
+                        this.cellsCheck.push(index);
+                        cell.background = this.sprites.goldCell;
+                        const vase = `vase_drop_${cell.id}`
+                        cell.vase = this.sprites[vase];
+                        this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
+                        this.user = true;
+                        setTimeout(() => {
+                            this.data.fatima.text.content = this.data.fatima.text.content_2;
+
+                            if(!this.userEnd && this.user) {
+                                this.gameEndBot(3000, this.random(this.cellsIndexes, this.cellsCheck), 4);
+                            }
+                        }, 500)
+                    }
+                }
+            })
+        }
+
         if (this.mouse.left && !this.mouse.pLeft && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
             this.data.cells.forEach((cell, index) => {
                 if (this.mouse.x > cell.x

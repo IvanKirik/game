@@ -85,6 +85,47 @@ export class GameTwoScene {
     }
 
     update() {
+        if (this.mouse.tap) {
+            this.data.balls.forEach(ball => {
+                if (this.mouse.touchX > ball.x
+                    && this.mouse.touchX < ball.x + this.sprites.ball.width
+                    && this.mouse.touchY > ball.y
+                    && this.mouse.touchY < ball.y + this.sprites.ball.width) {
+                    ball.opacity = 0;
+                    setInterval(() => {
+                        if (ball.flower.x < (this.sprites.boiler.width / 2) + this.data.boiler.x) {
+                            ball.flower.x = ball.flower.x + 1;
+                        }
+                        if (ball.flower.x > (this.sprites.boiler.width / 2) + this.data.boiler.x) {
+                            ball.flower.x = ball.flower.x - 1;
+                        }
+                        if (ball.flower.y < (this.sprites.boiler.height / 2) + this.data.boiler.y) {
+                            ball.flower.y = ball.flower.y + 1;
+                        } else {
+                            this.shadow = true;
+                        }
+                        if (ball.flower.y > this.data.boiler.y - 100) {
+                            ball.flower.opacity -= 0.009
+                            if (ball.flower.opacity < 0) {
+                                ball.flower.opacity = 0;
+                            }
+                        }
+                        if (ball.flower.y > this.data.boiler.y + 100) {
+                            this.data.fatimaText.content = this.data.fatimaText.content_2;
+
+                            setTimeout(() => {
+                                if (this.c < 1) {
+                                    ball.opacity = 0;
+                                    render.transitionMethod(SCENES.FINAL_SCENE);
+                                    this.c++
+                                }
+                            }, 2000)
+                        }
+                    }, 10)
+                }
+            })
+        }
+
         if (this.mouse.left && !this.mouse.pLeft) {
             this.data.balls.forEach(ball => {
                 if (this.mouse.x > ball.x
@@ -125,9 +166,6 @@ export class GameTwoScene {
                 }
             })
         }
-
-
-
     }
 
     render(opacity, timeStamp, transition) {
