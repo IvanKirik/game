@@ -78,11 +78,73 @@ export class GameTwoScene {
                 x: (canvas.width - sprites.boiler.width) / 2,
                 y: sprites.boiler.height + 65
             },
-            balls: balls
+            balls: balls,
+            bubbles: [
+                {
+                    pointA: {
+                        x: 200,
+                        y: sprites.boiler.height + 65 + 30,
+                    },
+                    pointB: {
+                        x: 200,
+                        y: sprites.boiler.height + 65 + 30 - 100,
+                    },
+                    position: {
+                        x: 200,
+                        y: sprites.boiler.height + 65 + 30,
+                    },
+                    width: 20,
+                    height: 20,
+                    opacity: 1,
+                    up: true,
+                    positionXMax: 200 + 10,
+                    positionXMin: 200 - 10
+                },
+                {
+                    pointA: {
+                        x: 170,
+                        y: sprites.boiler.height + 65 + 15,
+                    },
+                    pointB: {
+                        x: 170,
+                        y: sprites.boiler.height + 65 + 30 - 100,
+                    },
+                    position: {
+                        x: 170,
+                        y: sprites.boiler.height + 65 + 15,
+                    },
+                    width: 10,
+                    height: 10,
+                    opacity: 1,
+                    up: true,
+                    positionXMax: 150 + 10,
+                    positionXMin: 150 - 10
+                },
+                {
+                    pointA: {
+                        x: 130,
+                        y: sprites.boiler.height + 65 + 19,
+                    },
+                    pointB: {
+                        x: 130,
+                        y: sprites.boiler.height + 65 + 30 - 100,
+                    },
+                    position: {
+                        x: 130,
+                        y: sprites.boiler.height + 65 + 19,
+                    },
+                    width: 15,
+                    height: 15,
+                    opacity: 1,
+                    up: true,
+                    positionXMax: 130 + 10,
+                    positionXMin: 130 - 10
+                }
+            ]
         }
 
         this.c = 0;
-        this.c2 = 0
+        this.c2 = 0;
     }
 
     update() {
@@ -169,6 +231,28 @@ export class GameTwoScene {
                 }
             })
         }
+
+
+        //Обновление координат пузырьков
+        this.data.bubbles.forEach(bubble => {
+            bubble.position.y -= 0.3;
+            bubble.opacity += 0.01;
+
+            if (bubble.up) {
+                bubble.position.x += 0.2;
+            } else {
+                bubble.position.x -= 0.2;
+            }
+
+            if (bubble.position.x > bubble.positionXMax || bubble.position.x < bubble.positionXMin) {
+                bubble.up = !bubble.up;
+            }
+
+            if (bubble.position.y < bubble.pointB.y) {
+                bubble.position.y = bubble.pointA.y;
+                bubble.opacity = 0;
+            }
+        })
     }
 
     render(opacity, timeStamp, transition) {
@@ -207,9 +291,7 @@ export class GameTwoScene {
         });
 
         this.createShadow((this.canvas.width) / 2, this.data.boiler.y + 30);
-        // this.ctx.restore(); // восстанавливаем предыдущее состояние контекста
-
-
+        this.bubbles(transition);
     }
 
     textFatima(text) {
@@ -221,6 +303,15 @@ export class GameTwoScene {
             this.ctx.fillText(item, this.data.fatimaTextImg.x + 20, this.data.fatimaTextImg.y + margin);
             margin += 15;
         })
+    }
+
+    bubbles(transition) {
+        this.ctx.save();
+        this.data.bubbles.forEach(bubble => {
+            this.ctx.globalAlpha = transition ? 0 : bubble.opacity;
+            this.ctx.drawImage(this.sprites.bubble, bubble.position.x, bubble.position.y, bubble.width, bubble.height);
+        })
+        this.ctx.restore();
     }
 
     createShadow(x, y) {
