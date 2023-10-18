@@ -139,8 +139,15 @@ export class GameTwoScene {
                     up: true,
                     positionXMax: 130 + 10,
                     positionXMin: 130 - 10
-                }
-            ]
+                },
+            ],
+            fire: {
+                img: sprites.fire,
+                x: (canvas.width - sprites.fire.width) / 2,
+                y: 300,
+                opacity: 0.2,
+                up: true
+            }
         }
 
         this.c = 0;
@@ -255,6 +262,18 @@ export class GameTwoScene {
                 bubble.opacity = 0;
             }
         })
+
+        //анимация огня
+        if(this.data.fire.up) {
+            this.data.fire.opacity += 0.02;
+        } else {
+            this.data.fire.opacity -= 0.02;
+        }
+
+        if (this.data.fire.opacity > 1 || this.data.fire.opacity < 0.1) {
+            this.data.fire.up = !this.data.fire.up;
+        }
+
     }
 
     render(opacity, timeStamp, transition) {
@@ -301,6 +320,8 @@ export class GameTwoScene {
         if (progress > this.delay - 1000) {
             this.fatimaImg(this.fatimaImgOpacity = this.fatimaImgOpacity + 0.01)
         }
+
+        this.fire(this.data.fire.opacity);
     }
 
     fatimaImg(opacity) {
@@ -329,6 +350,13 @@ export class GameTwoScene {
             this.ctx.drawImage(this.sprites.bubble, bubble.position.x, bubble.position.y, bubble.width, bubble.height);
         })
         this.ctx.restore();
+    }
+
+    fire(opacity) {
+        this.ctx.save();
+        this.ctx.globalAlpha = opacity;
+        this.ctx.drawImage(this.data.fire.img, this.data.fire.x, this.data.fire.y);
+        this.ctx.restore()
     }
 
     createShadow(x, y) {

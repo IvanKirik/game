@@ -2,6 +2,7 @@ export const IMAGES = {
     background: null,
     board: null,
     bubble: null,
+    fire: null,
     startScreenBoard: null,
     startBoard: null,
     titleImage: null,
