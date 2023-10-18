@@ -92,10 +92,11 @@ export class GameOneScene {
         this.cellsCheck = [2, 4, 5];
 
         this.angle = 0.1;
+
+        this.opacityFatima = 0;
     }
 
     update() {
-
         //Обрабатываем клики по вазам
         if(this.mouse.tap && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
             this.data.hammer.x = this.mouse.touchX;
@@ -175,12 +176,9 @@ export class GameOneScene {
         if(!this.userThree && this.userTwo) {
             this.gameThreeBot(3000, 5, 2);
         }
-
     }
 
     render(opacity, timeStamp) {
-
-        let currentUserIndex = 0;
         if (!this.startTime) {
             this.startTime = timeStamp;
         }
@@ -219,12 +217,12 @@ export class GameOneScene {
         //Текущий юзер
         this.currentUser(this.currentUserName, (this.canvas.width - this.ctx.measureText(this.currentUserName).width) / 2, this.data.text.title_2.y + 30);
 
-        //Отрисовываем фатиму
-        this.ctx.drawImage(this.data.fatima.image.img, this.data.fatima.image.x, this.data.fatima.image.y);
-
-        //табличка с текстом Фатимы
-        this.textFatima(this.data.fatima.text.content);
-
+        if (progress > this.delay - 1000) {
+            //Отрисовываем фатиму
+            this.fatimaImg(this.opacityFatima = this.opacityFatima + 0.01);
+            //табличка с текстом Фатимы
+            this.textFatima(this.data.fatima.text.content, this.opacityFatima = this.opacityFatima + 0.01);
+        }
 
         //Отрисовываем кувшины
         this.data.cells.forEach(cell => {
@@ -236,13 +234,20 @@ export class GameOneScene {
             if(cell.grass) {
                 this.glowVase(( (this.sprites.cell.width - cell.vase.width) / 2) + cell.x + 35,((this.sprites.cell.height - cell.vase.height) / 2) + cell.y + 50, true);
             }
-
         })
-
         this.setHammer(this.data.hammer.img, this.data.hammer.x, this.data.hammer.y);
     }
 
-    textFatima(text) {
+    fatimaImg(opacityFatima) {
+        this.ctx.save();
+        this.ctx.globalAlpha = opacityFatima;
+        this.ctx.drawImage(this.data.fatima.image.img, this.data.fatima.image.x, this.data.fatima.image.y);
+        this.ctx.restore();
+    }
+
+    textFatima(text, opacityFatima) {
+        this.ctx.save();
+        this.ctx.globalAlpha = opacityFatima;
         this.ctx.drawImage(this.data.fatima.textImg.img, this.data.fatima.textImg.x, this.data.fatima.textImg.y);
         this.ctx.font = this.data.fatima.text.font;
         this.ctx.fillStyle = this.data.fatima.text.color;
@@ -250,9 +255,9 @@ export class GameOneScene {
         text.forEach(item => {
             this.ctx.fillText(item, this.data.fatima.textImg.x + 20, this.data.fatima.textImg.y + margin);
             margin += 15;
-        })
+        });
+        this.ctx.restore();
     }
-
 
     gameOneBot(delay, number, user) {
         setTimeout(() => {
@@ -274,8 +279,8 @@ export class GameOneScene {
                         this.currentUserName = this.data.users.listUsers[user + 1].user;
 
                         this.userOne = true;
-                    }, 1000)
-                }, 1000)
+                    }, 1000);
+                }, 1000);
             }
         }, delay)
     }
@@ -311,12 +316,10 @@ export class GameOneScene {
             this.transHammer(number);
             if (this.check(number)) {
                 setTimeout(() => {
-
                     this.cells[number].background = this.sprites.redCell;
                     const vase = `vase_drop_${this.cells[number].id}`
                     this.cells[number].vase = this.sprites[vase];
                     this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2)
-
                     setTimeout(() => {
                         this.data.users.listUsers[user].game = true;
                         if (this.data.users.listUsers[user].currentUser) {

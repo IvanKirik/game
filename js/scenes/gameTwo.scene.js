@@ -145,6 +145,8 @@ export class GameTwoScene {
 
         this.c = 0;
         this.c2 = 0;
+
+        this.fatimaImgOpacity = 0;
     }
 
     update() {
@@ -256,12 +258,15 @@ export class GameTwoScene {
     }
 
     render(opacity, timeStamp, transition) {
+        if (!this.startTime) {
+            this.startTime = timeStamp;
+        }
+        const progress = timeStamp - this.startTime;
+
         this.ctx.save(); // сохраняем текущее состояние контекста
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.board.img, this.data.board.x, this.data.board.y);
         this.ctx.drawImage(this.data.titleImg.img, this.data.titleImg.x, this.data.titleImg.y);
-        this.ctx.drawImage(this.data.fatima.img, this.data.fatima.x, this.data.fatima.y);
-        this.textFatima(this.data.fatimaText.content);
         this.ctx.drawImage(this.data.boiler.img, this.data.boiler.x, this.data.boiler.y);
 
         this.ctx.font = this.data.text.font;
@@ -292,6 +297,18 @@ export class GameTwoScene {
 
         this.createShadow((this.canvas.width) / 2, this.data.boiler.y + 30);
         this.bubbles(transition);
+
+        if (progress > this.delay - 1000) {
+            this.fatimaImg(this.fatimaImgOpacity = this.fatimaImgOpacity + 0.01)
+        }
+    }
+
+    fatimaImg(opacity) {
+        this.ctx.save()
+        this.ctx.globalAlpha = opacity;
+        this.ctx.drawImage(this.data.fatima.img, this.data.fatima.x, this.data.fatima.y);
+        this.textFatima(this.data.fatimaText.content)
+        this.ctx.restore()
     }
 
     textFatima(text) {
