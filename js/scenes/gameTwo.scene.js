@@ -82,10 +82,12 @@ export class GameTwoScene {
         }
 
         this.c = 0;
+        this.c2 = 0
     }
 
     update() {
-        if (this.mouse.tap) {
+        if (this.mouse.tap && this.c < 1) {
+            this.c2++
             this.data.balls.forEach(ball => {
                 if (this.mouse.touchX > ball.x
                     && this.mouse.touchX < ball.x + this.sprites.ball.width
@@ -126,7 +128,8 @@ export class GameTwoScene {
             })
         }
 
-        if (this.mouse.left && !this.mouse.pLeft) {
+        if (this.mouse.left && !this.mouse.pLeft && this.c < 1) {
+            this.c2++
             this.data.balls.forEach(ball => {
                 if (this.mouse.x > ball.x
                     && this.mouse.x < ball.x + this.sprites.ball.width
@@ -194,11 +197,11 @@ export class GameTwoScene {
 
         this.data.balls.forEach(ball => {
             this.ctx.save();
-            this.ctx.globalAlpha = transition ? opacity : ball.flower.opacity;
+            this.ctx.globalAlpha = transition ? 0 : ball.flower.opacity;
             this.ctx.drawImage(ball.flower.img, ball.flower.x, ball.flower.y);
             this.ctx.restore();
             this.ctx.save();
-            this.ctx.globalAlpha = transition ? opacity : ball.flower.opacity;
+            this.ctx.globalAlpha = transition ? 0 : ball.flower.opacity;
             this.ctx.drawImage(ball.background, ball.x, ball.y);
             this.ctx.restore();
         });

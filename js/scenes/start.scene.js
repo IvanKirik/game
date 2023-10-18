@@ -55,11 +55,9 @@ export class StartScene {
                 && this.mouse.x < buttonX + 143
                 && this.mouse.y > this.data.button.y - 30
                 && this.mouse.y < this.data.button.y + 30) {
-                if(this.input.value) {
+                if(this.input.value.trim()) {
                     listUserScene.setUser(this.input.value);
                     render.transitionMethod(SCENES.GAME_ONE)
-                } else {
-                    alert('Введите ваше имя!')
                 }
             }
         }
@@ -69,11 +67,9 @@ export class StartScene {
                 && this.mouse.touchX < buttonX + 143
                 && this.mouse.touchY > this.data.button.y - 30
                 && this.mouse.touchY < this.data.button.y + 30) {
-                if(this.input.value) {
+                if(this.input.value.trim()) {
                     listUserScene.setUser(this.input.value);
                     render.transitionMethod(SCENES.LIST_USERS)
-                } else {
-                    alert('Введите ваше имя!')
                 }
             }
         }

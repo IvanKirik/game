@@ -14,9 +14,9 @@ export class Render {
 
     positionXAliveBackground = 0;
     positionX2AliveBackground = 0;
-    speed = 0.6;
+    speed = 1;
 
-    backgroundOpacity = 0.4;
+    backgroundOpacity = 0.6;
     elementOpacity = 1;
 
     transition = false;

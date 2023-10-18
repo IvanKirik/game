@@ -35,6 +35,16 @@ export class App {
         this.canvas = document.getElementById('canvas');
         this.ctx = this.canvas.getContext('2d');
         this.mouse = new Mouse(this.canvas);
+
+        this.input = document.getElementById('input-name');
+        this.input.addEventListener('input', (e) => {
+            const inputValue = e.target.value;
+            const regex = /^[^!?#№;$&@/.+=\'\'\"\"-,]*$/;
+
+            if (!regex.test(inputValue)) {
+                e.target.value = "";
+            }
+        })
     }
 
     start() {
