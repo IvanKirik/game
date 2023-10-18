@@ -110,7 +110,7 @@ export class GameOneScene {
                         cell.background = this.sprites.goldCell;
                         const vase = `vase_drop_green_${cell.id}`
                         cell.vase = this.sprites[vase];
-                        // this.data.cells[index].grass = true;
+                        this.data.cells[index].grass = true;
                         // this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
                         this.user = true;
                         setTimeout(() => {
@@ -136,7 +136,7 @@ export class GameOneScene {
                         cell.background = this.sprites.goldCell;
                         const vase = `vase_drop_green_${cell.id}`
                         cell.vase = this.sprites[vase];
-                        // this.data.cells[index].grass = true;
+                        this.data.cells[index].grass = true;
                         // this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
                         this.user = true;
                         setTimeout(() => {
@@ -234,10 +234,9 @@ export class GameOneScene {
                 ((this.sprites.cell.width - cell.vase.width) / 2) + cell.x,
                 ((this.sprites.cell.height - cell.vase.height) / 2) + cell.y);
             if(cell.grass) {
-                this.ctx.drawImage(this.sprites.grass,
-                    ((this.sprites.cell.width - cell.vase.width) / 2) + cell.x,
-                    ((this.sprites.cell.height - cell.vase.height) / 2) + cell.y + 20)
+                this.glowVase(( (this.sprites.cell.width - cell.vase.width) / 2) + cell.x + 35,((this.sprites.cell.height - cell.vase.height) / 2) + cell.y + 50, true);
             }
+
         })
 
         this.setHammer(this.data.hammer.img, this.data.hammer.x, this.data.hammer.y);
@@ -340,7 +339,7 @@ export class GameOneScene {
                     this.cells[number].background = this.sprites.goldCell;
                     const vase = `vase_drop_green_${this.cells[number].id}`
                     this.cells[number].vase = this.sprites[vase];
-                    // this.cells[number].grass = true;
+                    this.cells[number].grass = true;
                     // this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2)
                     setTimeout(() => {
                         render.transitionMethod(SCENES.GAME_TWO);
@@ -385,8 +384,8 @@ export class GameOneScene {
 
     glowVase(x, y, shadow) {
         if (shadow) {
-            const width = 20;
-            const height = 20;
+            const width = 50;
+            const height = 50;
 
             const blurRadius = Math.abs(Math.sin(this.angle)) * 20; // Maximum blur radius of 20
             const shadowBlur = Math.abs(Math.sin(this.angle)) * 30; // Maximum shadow blur of 30
@@ -403,7 +402,7 @@ export class GameOneScene {
             this.ctx.fill()
             this.ctx.restore();
 
-            this.angle += 0.005;
+            this.angle += 0.0005;
         }
     }
 }
