@@ -90,6 +90,8 @@ export class GameOneScene {
 
         this.cellsIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8];
         this.cellsCheck = [2, 4, 5];
+
+        this.angle = 0.1;
     }
 
     update() {
@@ -106,10 +108,10 @@ export class GameOneScene {
                     if (index !== 2 && index !== 4 && index !== 5) {
                         this.cellsCheck.push(index);
                         cell.background = this.sprites.goldCell;
-                        const vase = `vase_drop_${cell.id}`
+                        const vase = `vase_drop_green_${cell.id}`
                         cell.vase = this.sprites[vase];
-                        this.data.cells[index].grass = true;
-                        this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
+                        // this.data.cells[index].grass = true;
+                        // this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
                         this.user = true;
                         setTimeout(() => {
                             this.currentUserName = this.data.users.listUsers[4].user;
@@ -132,10 +134,10 @@ export class GameOneScene {
                     if (index !== 2 && index !== 4 && index !== 5) {
                         this.cellsCheck.push(index);
                         cell.background = this.sprites.goldCell;
-                        const vase = `vase_drop_${cell.id}`
+                        const vase = `vase_drop_green_${cell.id}`
                         cell.vase = this.sprites[vase];
-                        this.data.cells[index].grass = true;
-                        this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
+                        // this.data.cells[index].grass = true;
+                        // this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
                         this.user = true;
                         setTimeout(() => {
                             this.currentUserName = this.data.users.listUsers[4].user;
@@ -323,7 +325,6 @@ export class GameOneScene {
                         }
                         this.data.users.listUsers[user + 1].currentUser = true;
                         this.currentUserName = this.data.users.listUsers[user + 1].user;
-
                         this.userThree = true;
                     }, 1000)
                 }, 1000)
@@ -337,10 +338,10 @@ export class GameOneScene {
             if (this.check(number)) {
                 setTimeout(() => {
                     this.cells[number].background = this.sprites.goldCell;
-                    const vase = `vase_drop_${this.cells[number].id}`
+                    const vase = `vase_drop_green_${this.cells[number].id}`
                     this.cells[number].vase = this.sprites[vase];
-                    this.cells[number].grass = true;
-                    this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2)
+                    // this.cells[number].grass = true;
+                    // this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2)
                     setTimeout(() => {
                         render.transitionMethod(SCENES.GAME_TWO);
                     }, 1000)
@@ -366,18 +367,6 @@ export class GameOneScene {
     }
 
     transHammer(numberCell) {
-        // if (this.data.hammer.x < this.cells[numberCell].x + 20) {
-        //     this.data.hammer.x += 1;
-        // } else if (this.data.hammer.x > this.cells[numberCell].x + this.cells[numberCell].vase.width + 20) {
-        //     this.data.hammer.x -= 1;
-        // }
-        //
-        // if (this.data.hammer.y < this.cells[numberCell].y + 20) {
-        //     this.data.hammer.y += 1;
-        // } else if (this.data.hammer.y > this.cells[numberCell].y + this.cells[numberCell].vase.height + 20) {
-        //     this.data.hammer.y -= 1;
-        // }
-
         this.data.hammer.x = this.cells[numberCell].x + 20;
         this.data.hammer.y = this.cells[numberCell].y + 20;
     }
@@ -392,5 +381,29 @@ export class GameOneScene {
 
     setSandToUser(img, x, y) {
         this.ctx.drawImage(img, x, y);
+    }
+
+    glowVase(x, y, shadow) {
+        if (shadow) {
+            const width = 20;
+            const height = 20;
+
+            const blurRadius = Math.abs(Math.sin(this.angle)) * 20; // Maximum blur radius of 20
+            const shadowBlur = Math.abs(Math.sin(this.angle)) * 30; // Maximum shadow blur of 30
+
+            this.ctx.save();
+            this.ctx.shadowColor = 'rgba(0,255,0,0.52)'; // Green color with transparency
+            this.ctx.shadowBlur = shadowBlur;
+            this.ctx.shadowOffsetX = 0;
+            this.ctx.shadowOffsetY = 0;
+            this.ctx.filter = `blur(${blurRadius}px)`; // Vary the blur strength based on pulse
+            this.ctx.beginPath();
+            this.ctx.ellipse(x, y, width / 2, height / 2, 0, 0, Math.PI * 2);
+            this.ctx.fillStyle = 'rgba(0,255,0,0.28)';
+            this.ctx.fill()
+            this.ctx.restore();
+
+            this.angle += 0.005;
+        }
     }
 }

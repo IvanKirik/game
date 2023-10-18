@@ -86,7 +86,7 @@ export class GameTwoScene {
     }
 
     update() {
-        if (this.mouse.tap && this.c < 1) {
+        if (this.mouse.tap && this.c2 < 1) {
             this.c2++
             this.data.balls.forEach(ball => {
                 if (this.mouse.touchX > ball.x
@@ -128,7 +128,7 @@ export class GameTwoScene {
             })
         }
 
-        if (this.mouse.left && !this.mouse.pLeft && this.c < 1) {
+        if (this.mouse.left && !this.mouse.pLeft && this.c2 < 1) {
             this.c2++
             this.data.balls.forEach(ball => {
                 if (this.mouse.x > ball.x
