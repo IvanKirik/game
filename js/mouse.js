@@ -1,11 +1,13 @@
-import {app} from "./app.js";
 
 export class Mouse {
     constructor(element) {
         this.element = element;
-
-        this.height = window.innerHeight;
-        this.width = window.innerWidth;
+        this.rect = element.getBoundingClientRect();
+        this.computedStyles = getComputedStyle(element);
+        this.canvasComputedStyleWidth = parseInt(this.computedStyles.width);
+        this.canvasComputedStyleHeight = parseInt(this.computedStyles.height);
+        this.scaleX = this.canvasComputedStyleWidth / element.width;
+        this.scaleY = this.canvasComputedStyleHeight / element.height;
 
         this.touchX = 0;
         this.touchY = 0;
@@ -46,21 +48,15 @@ export class Mouse {
         this.touch = event.touches[0];
         this.tap = event.isTrusted;
 
-        let scaleX = app.canvas.width / this.width; // отношение ширины канваса к ширине экрана
-        let scaleY = app.canvas.height / this.height; // отношение высоты канваса к высоте экрана
-
-        this.touchX = this.touch.clientX * scaleX; // координата x на канвасе
-        this.touchY = this.touch.clientY * scaleY; // координата y на канвасе
+        this.touchX = (this.touch.clientX - this.rect.left) / this.scaleX;
+        this.touchY = (this.touch.clientY - this.rect.top) / this.scaleY;
     }
 
     handleTouchMove(event) {
         this.touch = event.touches[0];
         this.touchMove = !!this.touch;
-        let scaleX = app.canvas.width / this.width; // отношение ширины канваса к ширине экрана
-        let scaleY = app.canvas.height / this.height; // отношение высоты канваса к высоте экрана
-
-        this.touchX = this.touch.clientX * scaleX; // координата x на канвасе
-        this.touchY = this.touch.clientY * scaleY; // координата y на канвасе
+        this.touchX = (this.touch.clientX - this.rect.left) / this.scaleX;
+        this.touchY = (this.touch.clientY - this.rect.top) / this.scaleY;
     }
 
     mouseenterHandler(event) {
@@ -68,9 +64,8 @@ export class Mouse {
     }
 
     mousemoveHandler(event) {
-        const rect = this.element.getBoundingClientRect();
-        this.x = event.clientX - rect.left;
-        this.y = event.clientY - rect.top;
+        this.x = (event.clientX - this.rect.left) / this.scaleX;
+        this.y = (event.clientY - this.rect.top) / this.scaleY;
     }
 
     mouseleaveHandler(event) {

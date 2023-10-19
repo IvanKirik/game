@@ -167,7 +167,7 @@ export class GameOneScene {
         }
 
         //движение молоточка при клике
-        if (this.mouse.tap) {
+        if (this.mouse.tap && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
             this.data.hammer.img = this.sprites.hammer_2
             setTimeout(() => {
                 this.data.hammer.img = this.sprites.hammer
@@ -404,12 +404,14 @@ export class GameOneScene {
     }
 
     transHammer(numberCell) {
-        this.data.hammer.x = this.cells[numberCell].x + 20;
-        this.data.hammer.y = this.cells[numberCell].y + 20;
+        this.data.hammer.x = this.cells[numberCell].x + 40;
+        this.data.hammer.y = this.cells[numberCell].y + 40;
     }
 
     setHammer(sprites, x, y) {
-        this.ctx.drawImage(sprites, x - 5, y + 20);
+        this.ctx.save();
+        this.ctx.drawImage(sprites, x - sprites.width / 2, y - sprites.height / 2);
+        this.ctx.restore()
     }
 
     currentUser(user, x, y) {
