@@ -5,7 +5,7 @@ export class ListUsersScene {
     sprites = null;
 
     startTime = null;
-    delay = 1500;
+    delay = 10000;
 
     users = null;
 
