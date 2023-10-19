@@ -177,7 +177,7 @@ export class Render {
                         this.transition = false;
                         this.currentScene = SCENES.GAME_ONE
                     }, this.duration)
-                }, 100000)
+                }, 10000)
             }
         }, this.duration)
     }
