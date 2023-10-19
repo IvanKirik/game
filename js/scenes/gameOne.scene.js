@@ -114,7 +114,6 @@ export class GameOneScene {
                         const vase = `vase_drop_green_${cell.id}`
                         cell.vase = this.sprites[vase];
                         this.data.cells[index].grass = true;
-                        // this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
                         this.user = true;
                         setTimeout(() => {
                             this.currentUserName = this.data.users.listUsers[4].user;
@@ -140,7 +139,6 @@ export class GameOneScene {
                         const vase = `vase_drop_green_${cell.id}`
                         cell.vase = this.sprites[vase];
                         this.data.cells[index].grass = true;
-                        // this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2);
                         this.user = true;
                         setTimeout(() => {
                             this.currentUserName = this.data.users.listUsers[4].user;

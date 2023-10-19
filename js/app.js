@@ -184,6 +184,7 @@ export class App {
                     centerX: (((sprites.ball.width - flower.width) / 2 + offsetX + ballSize * row) + flower.width) / 2,
                     centerY: (((sprites.ball.height - flower.height) / 2 + offsetY) + flower.height) / 2,
                     opacity: 1,
+                    rotation: false
                 },
                 background: sprites.ball,
                 opacity: 1,

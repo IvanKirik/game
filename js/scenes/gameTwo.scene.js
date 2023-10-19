@@ -154,10 +154,13 @@ export class GameTwoScene {
         this.c2 = 0;
 
         this.fatimaImgOpacity = 0;
+
+        this.rotationAngle = 0;
+        this.rotationSpeed = 1;
     }
 
     update() {
-        if (this.mouse.tap && this.c2 < 3) {
+        if (this.mouse.tap && this.c2 < 1) {
             this.c2++
             this.data.balls.forEach(ball => {
                 if (this.mouse.touchX > ball.x
@@ -165,6 +168,7 @@ export class GameTwoScene {
                     && this.mouse.touchY > ball.y
                     && this.mouse.touchY < ball.y + this.sprites.ball.width) {
                     ball.opacity = 0;
+                    ball.flower.rotation = true;
                     setInterval(() => {
                         if (ball.flower.x < (this.sprites.boiler.width / 2) + this.data.boiler.x) {
                             ball.flower.x = ball.flower.x + 1;
@@ -199,7 +203,7 @@ export class GameTwoScene {
             })
         }
 
-        if (this.mouse.left && !this.mouse.pLeft && this.c2 < 3) {
+        if (this.mouse.left && !this.mouse.pLeft && this.c2 < 1) {
             this.c2++
             this.data.balls.forEach(ball => {
                 if (this.mouse.x > ball.x
@@ -274,6 +278,7 @@ export class GameTwoScene {
             this.data.fire.up = !this.data.fire.up;
         }
 
+        this.rotationAngle += this.rotationSpeed;
     }
 
     render(opacity, timeStamp, transition) {
@@ -302,20 +307,16 @@ export class GameTwoScene {
         this.ctx.fillText(`${this.data.text.users.listUsers[3].row}. ${this.data.text.users.listUsers[3].user}`, (this.canvas.width - this.ctx.measureText(this.data.text.users.listUsers[3].user).width) / 2, this.data.text.users.user1Y);
         this.ctx.fillText(`${this.data.text.users.listUsers[4].row}. ${this.data.text.users.listUsers[4].user}`, (this.canvas.width - this.ctx.measureText(this.data.text.users.listUsers[4].user).width) / 2, this.data.text.users.user2Y);
 
+        //Цветы
+        this.createFlower(transition)
 
-        this.data.balls.forEach(ball => {
-            this.ctx.save();
-            this.ctx.globalAlpha = transition ? 0 : ball.flower.opacity;
-            // this.ctx.rotate(20 * Math.PI / 180)
-            this.ctx.drawImage(ball.flower.img, ball.flower.x, ball.flower.y);
-            this.ctx.restore();
-            this.ctx.save();
-            this.ctx.globalAlpha = transition ? 0 : ball.flower.opacity;
-            this.ctx.drawImage(ball.background, ball.x, ball.y);
-            this.ctx.restore();
-        });
+        //Сферы
+        this.createBalls(transition);
 
+        //Свечение над котлом
         this.createShadow((this.canvas.width) / 2, this.data.boiler.y + 30);
+
+        //пузыри над котлом
         this.bubbles(transition);
 
         if (progress > this.delay - 1000) {
@@ -323,6 +324,35 @@ export class GameTwoScene {
         }
 
         this.fire(this.data.fire.opacity, transition);
+    }
+
+    createBalls(transition) {
+        this.data.balls.forEach(ball => {
+            this.ctx.save();
+            this.ctx.globalAlpha = transition ? 0 : ball.flower.opacity;
+            this.ctx.drawImage(ball.background, ball.x, ball.y);
+            this.ctx.restore();
+        });
+    }
+
+    createFlower(transition) {
+
+        this.data.balls.forEach(ball => {
+            let rotationAngle = this.rotationAngle; // Угол поворота в градусах
+            let centerX = ball.flower.x + ball.flower.img.width / 2; // Координаты центра изображения по оси X
+            let centerY = ball.flower.y + ball.flower.img.height / 2; // Координаты центра изображения по оси Y
+
+            this.ctx.save();
+            if (ball.flower.rotation) {
+                this.ctx.translate(centerX, centerY);
+                this.ctx.rotate(rotationAngle * Math.PI / 180);
+                this.ctx.translate(-centerX, -centerY);
+            }
+            this.ctx.globalAlpha = transition ? 0 : ball.flower.opacity;
+            this.ctx.drawImage(ball.flower.img, ball.flower.x, ball.flower.y);
+            this.ctx.restore();
+        });
+
     }
 
     fatimaImg(opacity, transition) {

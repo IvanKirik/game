@@ -73,7 +73,6 @@ export class StartScene {
                 }
             }
         }
-
     }
 
     render(opacity) {
@@ -89,4 +88,5 @@ export class StartScene {
         this.ctx.fillText(this.data.button.content, (this.canvas.width - this.ctx.measureText('Начать игру').width) / 2, this.data.button.y);
         this.ctx.restore();
     }
+
 }
