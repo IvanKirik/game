@@ -174,15 +174,15 @@ export class GameOneScene {
 
         //описывает логику игры ботами
         if (!this.userOne && !this.userTwo) {
-            this.gameOneBot(3000, 2, 0);
+            this.gameOneBot(5000, 2, 0);
         }
 
         if (!this.userTwo && this.userOne) {
-            this.gameTwoBot(3000, 4, 1);
+            this.gameTwoBot(5000, 4, 1);
         }
 
         if(!this.userThree && this.userTwo) {
-            this.gameThreeBot(3000, 5, 2);
+            this.gameThreeBot(5000, 5, 2);
         }
     }
 
