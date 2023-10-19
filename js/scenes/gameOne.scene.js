@@ -10,7 +10,7 @@ export class GameOneScene {
     cells = null;
 
     startTime = null;
-    delay = 1500;
+    delay = 1900;
 
     constructor(canvas, ctx, mouse, sprites, users, cells) {
         this.canvas = canvas;
@@ -94,6 +94,8 @@ export class GameOneScene {
         this.angle = 0.1;
 
         this.opacityFatima = 0;
+
+        this.hammerCount = 0;
     }
 
     update() {
@@ -162,6 +164,14 @@ export class GameOneScene {
         if (this.mouse.touchMove && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
             this.data.hammer.x = this.mouse.touchX;
             this.data.hammer.y = this.mouse.touchY;
+        }
+
+        //движение молоточка при клике
+        if (this.mouse.tap) {
+            this.data.hammer.img = this.sprites.hammer_2
+            setTimeout(() => {
+                this.data.hammer.img = this.sprites.hammer
+            }, 300)
         }
 
         //описывает логику игры ботами
@@ -264,7 +274,13 @@ export class GameOneScene {
             this.transHammer(number);
             if (this.check(number)) {
                 setTimeout(() => {
-
+                    if (this.hammerCount === 0) {
+                        this.data.hammer.img = this.sprites.hammer_2
+                        this.hammerCount++
+                        setTimeout(() => {
+                            this.data.hammer.img = this.sprites.hammer
+                        }, 300)
+                    }
                     this.cells[number].background = this.sprites.redCell;
                     const vase = `vase_drop_${this.cells[number].id}`
                     this.cells[number].vase = this.sprites[vase];
@@ -280,7 +296,7 @@ export class GameOneScene {
 
                         this.userOne = true;
                     }, 1000);
-                }, 1000);
+                }, 1500);
             }
         }, delay)
     }
@@ -290,7 +306,13 @@ export class GameOneScene {
             this.transHammer(number);
             if (this.check(number)) {
                 setTimeout(() => {
-
+                    if (this.hammerCount === 1) {
+                        this.data.hammer.img = this.sprites.hammer_2;
+                        this.hammerCount++;
+                        setTimeout(() => {
+                            this.data.hammer.img = this.sprites.hammer;
+                        }, 300)
+                    }
                     this.cells[number].background = this.sprites.redCell;
                     const vase = `vase_drop_${this.cells[number].id}`
                     this.cells[number].vase = this.sprites[vase];
@@ -303,10 +325,9 @@ export class GameOneScene {
                         }
                         this.data.users.listUsers[user + 1].currentUser = true;
                         this.currentUserName = this.data.users.listUsers[user + 1].user;
-
                         this.userTwo = true;
                     }, 1000)
-                }, 1000)
+                }, 1500)
             }
         }, delay)
     }
@@ -316,6 +337,13 @@ export class GameOneScene {
             this.transHammer(number);
             if (this.check(number)) {
                 setTimeout(() => {
+                    if (this.hammerCount === 2) {
+                        this.data.hammer.img = this.sprites.hammer_2
+                        this.hammerCount++
+                        setTimeout(() => {
+                            this.data.hammer.img = this.sprites.hammer
+                        }, 300)
+                    }
                     this.cells[number].background = this.sprites.redCell;
                     const vase = `vase_drop_${this.cells[number].id}`
                     this.cells[number].vase = this.sprites[vase];
@@ -329,7 +357,7 @@ export class GameOneScene {
                         this.currentUserName = this.data.users.listUsers[user + 1].user;
                         this.userThree = true;
                     }, 1000)
-                }, 1000)
+                }, 1500)
             }
         }, delay)
     }
@@ -339,6 +367,13 @@ export class GameOneScene {
             this.transHammer(number);
             if (this.check(number)) {
                 setTimeout(() => {
+                    if (this.hammerCount === 3) {
+                        this.data.hammer.img = this.sprites.hammer_2
+                        this.hammerCount++
+                        setTimeout(() => {
+                            this.data.hammer.img = this.sprites.hammer
+                        }, 300)
+                    }
                     this.cells[number].background = this.sprites.goldCell;
                     const vase = `vase_drop_green_${this.cells[number].id}`
                     this.cells[number].vase = this.sprites[vase];
@@ -347,7 +382,7 @@ export class GameOneScene {
                     setTimeout(() => {
                         render.transitionMethod(SCENES.GAME_TWO);
                     }, 1000)
-                }, 1000)
+                }, 1500)
             }
         }, delay)
     }
@@ -374,7 +409,7 @@ export class GameOneScene {
     }
 
     setHammer(sprites, x, y) {
-        this.ctx.drawImage(sprites, x - 20, y - 20);
+        this.ctx.drawImage(sprites, x - 5, y + 20);
     }
 
     currentUser(user, x, y) {

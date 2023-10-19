@@ -3,6 +3,7 @@ export class FinalScene {
     ctx = null;
     mouse = null;
     sprites = null;
+    durationTimer = 3;
 
     constructor(canvas, ctx, mouse, sprites) {
         this.canvas = canvas;
@@ -47,7 +48,6 @@ export class FinalScene {
     }
 
     render(opacity, timeStamp) {
-
         this.ctx.save()
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.board.img, this.data.board.x, this.data.board.y);
@@ -57,29 +57,24 @@ export class FinalScene {
         this.ctx.fillStyle = this.data.text.title.color;
         this.ctx.fillText(this.data.text.title.content, (this.canvas.width - this.ctx.measureText(this.data.text.title.content).width) / 2, this.data.text.title.y);
 
-        this.renderTimer(50, 70);
+        this.renderTimer(50, 70, this.data.time);
     }
 
-    renderTimer(width, height) {
+    renderTimer(width, height, time) {
         const widthBlock = width * 5 + 10 * 5;
         const x = (this.canvas.width - widthBlock) / 2;
 
-        let m1 = this.data.time.minutes[0];
-        let m2 = this.data.time.minutes[1];
-        let s1 = this.data.time.sec[0];
-        let s2 = this.data.time.sec[1];
-
         this.ctx.save();
-        this.ctx.drawImage(this.sprites['number_' + m1], x + 25, this.data.board.y + 70, width, height);
-        this.ctx.drawImage(this.sprites['number_' + m2], x + 25 + width, this.data.board.y + 70, width, height);
+        this.ctx.drawImage(this.sprites['number_' + time.minutes[0]], x + 25, this.data.board.y + 70, width, height);
+        this.ctx.drawImage(this.sprites['number_' + time.minutes[1]], x + 25 + width, this.data.board.y + 70, width, height);
         this.ctx.drawImage(this.sprites.dots, x + 30 + width * 2, this.data.board.y + 70, width, height);
-        this.ctx.drawImage(this.sprites['number_' + s1], x + 25 + width * 3, this.data.board.y + 70, width, height);
-        this.ctx.drawImage(this.sprites['number_' + s2], x + 25 + width * 4, this.data.board.y + 70, width, height);
+        this.ctx.drawImage(this.sprites['number_' + time.sec[0]], x + 25 + width * 3, this.data.board.y + 70, width, height);
+        this.ctx.drawImage(this.sprites['number_' + time.sec[1]], x + 25 + width * 4, this.data.board.y + 70, width, height);
         this.ctx.restore()
     }
 
     timer() {
-        let duration = 180; // Длительность таймера в секундах (в данном случае 03:00)
+        let duration = this.durationTimer * 60; // Длительность таймера в секундах (в данном случае 03:00)
 
         let t = setInterval(() => {
             let minutes = parseInt(duration / 60, 10);
@@ -96,8 +91,6 @@ export class FinalScene {
 
             this.data.time.minutes = [m1, m2];
             this.data.time.sec = [s1, s2];
-
-            // console.log(this.data.time.minutes, this.data.time.sec);
 
             if (--duration < 0) {
                 clearInterval(t); // Остановка таймера по истечении времени

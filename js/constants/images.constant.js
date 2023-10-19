@@ -19,6 +19,7 @@ export const IMAGES = {
     goldCell: null,
     boiler: null,
     hammer: null,
+    hammer_2: null,
     drop: null,
     dust: null,
     grass: null,
