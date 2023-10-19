@@ -318,13 +318,13 @@ export class GameTwoScene {
         this.bubbles(transition);
 
         if (progress > this.delay - 1000) {
-            this.fatimaImg(this.fatimaImgOpacity = this.fatimaImgOpacity + 0.01)
+            this.fatimaImg(this.fatimaImgOpacity = this.fatimaImgOpacity + 0.01, transition)
         }
 
-        this.fire(this.data.fire.opacity);
+        this.fire(this.data.fire.opacity, transition);
     }
 
-    fatimaImg(opacity) {
+    fatimaImg(opacity, transition) {
         this.ctx.save()
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.fatima.img, this.data.fatima.x, this.data.fatima.y);
@@ -352,9 +352,9 @@ export class GameTwoScene {
         this.ctx.restore();
     }
 
-    fire(opacity) {
+    fire(opacity, transition) {
         this.ctx.save();
-        this.ctx.globalAlpha = opacity;
+        this.ctx.globalAlpha = transition ? 0 : opacity;
         this.ctx.drawImage(this.data.fire.img, this.data.fire.x, this.data.fire.y);
         this.ctx.restore()
     }

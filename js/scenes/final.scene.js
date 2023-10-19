@@ -28,12 +28,22 @@ export class FinalScene {
                     font: '20px Comic Sans MS',
                     color: 'white',
                 }
+            },
+            time: {
+                minutes: [0, 3],
+                sec: [0, 0],
+                count: 0,
+                x: '',
+                y: ''
             }
         }
     }
 
     update() {
-
+        if(this.data.time.count < 1) {
+            this.timer();
+            this.data.time.count++
+        }
     }
 
     render(opacity, timeStamp) {
@@ -46,5 +56,53 @@ export class FinalScene {
         this.ctx.font = this.data.text.title.font;
         this.ctx.fillStyle = this.data.text.title.color;
         this.ctx.fillText(this.data.text.title.content, (this.canvas.width - this.ctx.measureText(this.data.text.title.content).width) / 2, this.data.text.title.y);
+
+        this.renderTimer(50, 70);
+    }
+
+    renderTimer(width, height) {
+        const widthBlock = width * 5 + 10 * 5;
+        const x = (this.canvas.width - widthBlock) / 2;
+
+        let m1 = this.data.time.minutes[0];
+        let m2 = this.data.time.minutes[1];
+        let s1 = this.data.time.sec[0];
+        let s2 = this.data.time.sec[1];
+
+        this.ctx.save();
+        this.ctx.drawImage(this.sprites['number_' + m1], x + 25, this.data.board.y + 70, width, height);
+        this.ctx.drawImage(this.sprites['number_' + m2], x + 25 + width, this.data.board.y + 70, width, height);
+        this.ctx.drawImage(this.sprites.dots, x + 30 + width * 2, this.data.board.y + 70, width, height);
+        this.ctx.drawImage(this.sprites['number_' + s1], x + 25 + width * 3, this.data.board.y + 70, width, height);
+        this.ctx.drawImage(this.sprites['number_' + s2], x + 25 + width * 4, this.data.board.y + 70, width, height);
+        this.ctx.restore()
+    }
+
+    timer() {
+        let duration = 180; // Длительность таймера в секундах (в данном случае 03:00)
+
+        let t = setInterval(() => {
+            let minutes = parseInt(duration / 60, 10);
+            let seconds = parseInt(duration % 60, 10);
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            const m1 = minutes.toString().split('')[0];
+            const m2 = minutes.toString().split('')[1];
+
+            const s1 =  seconds.toString().split('')[0];
+            const s2 =  seconds.toString().split('')[1];
+
+            this.data.time.minutes = [m1, m2];
+            this.data.time.sec = [s1, s2];
+
+            // console.log(this.data.time.minutes, this.data.time.sec);
+
+            if (--duration < 0) {
+                clearInterval(t); // Остановка таймера по истечении времени
+                // Дополнительное действие по окончании времени
+            }
+        }, 1000);
     }
 }
