@@ -4,8 +4,8 @@ import {Router} from "./router.js";
 import {Mouse} from "./mouse.js";
 import {IMAGES} from "./constants/images.constant.js";
 import {listUserScene} from "./scenes/listUsers.scene.js";
-import {GameOneScene} from "./scenes/gameOne.scene.js";
-import {GameTwoScene} from "./scenes/gameTwo.scene.js";
+import {gameOneScene} from "./scenes/gameOne.scene.js";
+import {gameTwoScene} from "./scenes/gameTwo.scene.js";
 import {StartScene} from "./scenes/start.scene.js";
 import {FinalScene} from "./scenes/final.scene.js";
 
@@ -77,12 +77,15 @@ export class App {
         this.balls = this.createBalls(this.sprites, this.canvas.width, this.canvas.height);
 
         listUserScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.listUsers);
+        gameOneScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.cells);
+        gameTwoScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.balls);
+
         render.init(this.ctx, this.canvas, this.mouse, this.sprites, this.input,
             new Router(
                 new StartScene(this.canvas, this.ctx, this.mouse, this.sprites, this.input),
                 listUserScene,
-                new GameOneScene(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.cells),
-                new GameTwoScene(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.balls),
+                gameOneScene,
+                gameTwoScene,
                 new FinalScene(this.canvas, this.ctx, this.mouse, this.sprites)
             ))
 
@@ -115,7 +118,9 @@ export class App {
                 game: false,
                 currentUser: false,
                 textStart: [`${user}, в одном из этих`, 'горшков лежит волшебная', 'трава для эликсира молодости,', 'попробуйте найти ее,', 'разбив один из горшков'],
-                textEnd: [`${user}`, 'к сожалению вы проиграли.', `Ход переходит к ${listUsers[index + 1]}`]
+                textEnd: row !== 4 ?
+                    [`${user}`, 'к сожалению вы проиграли.', `Ход переходит к ${listUsers[index + 1]}`] :
+                    [`${user}`, 'отлично, удача', `улыбнулась вам! Дождитесь`, 'конца хода всех участников']
             }
         }
         return createUsers();
@@ -196,6 +201,15 @@ export class App {
         }
 
         return createBalls();
+    }
+
+    updateUserList(user) {
+        this.listUsers[3] = user;
+        this.users = this.createListUsers(this.listUsers, this.canvas.width, this.canvas.height, this.sprites);
+
+        listUserScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.listUsers);
+        gameOneScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.cells);
+        gameTwoScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.balls);
     }
 }
 

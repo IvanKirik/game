@@ -1,3 +1,4 @@
+import {app} from "../app.js";
 
 export class ListUsersScene {
     canvas = null;
@@ -19,7 +20,6 @@ export class ListUsersScene {
         this.mouse = mouse;
         this.sprites = sprites;
         this.users = users;
-
 
         this.data = {
             board: {
@@ -77,6 +77,7 @@ export class ListUsersScene {
     }
 
     render(opacity, timeStamp, transition) {
+
         if (!this.startTime) {
             this.startTime = timeStamp;
         }
@@ -93,7 +94,7 @@ export class ListUsersScene {
         this.ctx.font = this.data.usersText.font;
         this.ctx.fillStyle = this.data.usersText.color;
 
-        this.data.usersText.content.forEach((user, index)=> {
+        this.data.usersText.content.forEach((user, index) => {
             if (index < 4) {
                 this.ctx.fillText(
                     `${user.row}. ${user.user}`,
@@ -108,6 +109,7 @@ export class ListUsersScene {
                 }
             }
         })
+
 
         this.ctx.save();
         this.ctx.globalAlpha = this.data.usersText.opacity;
@@ -132,10 +134,6 @@ export class ListUsersScene {
 
         this.ctx.restore();
 
-    }
-
-    setUser(user) {
-        this.users[3].user = user;
     }
 
     fatimaImg(opacityFatima) {

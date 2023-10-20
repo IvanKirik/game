@@ -1,7 +1,7 @@
 import {SCENES} from "../constants/scenes.constants.js";
 import {render} from "../render.js";
 
-export class GameTwoScene {
+class GameTwoScene {
     canvas = null;
     ctx = null;
     mouse = null;
@@ -16,6 +16,14 @@ export class GameTwoScene {
     shadow = false;
 
     constructor(canvas, ctx, mouse, sprites, users, balls) {
+        this.c = 0;
+        this.c2 = 0;
+        this.fatimaImgOpacity = 0;
+        this.rotationAngle = 0;
+        this.rotationSpeed = 1;
+    }
+
+    init(canvas, ctx, mouse, sprites, users, balls) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.mouse = mouse;
@@ -149,14 +157,6 @@ export class GameTwoScene {
                 up: true
             }
         }
-
-        this.c = 0;
-        this.c2 = 0;
-
-        this.fatimaImgOpacity = 0;
-
-        this.rotationAngle = 0;
-        this.rotationSpeed = 1;
     }
 
     update() {
@@ -414,3 +414,5 @@ export class GameTwoScene {
         }
     }
 }
+
+export const gameTwoScene = new GameTwoScene();

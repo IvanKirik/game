@@ -1,23 +1,34 @@
 import {render} from "../render.js";
 import {SCENES} from "../constants/scenes.constants.js";
+import {app} from "../app.js";
 
-export class GameOneScene {
+class GameOneScene {
     canvas = null;
     ctx = null;
     mouse = null;
     sprites = null;
-
+    users = null;
     cells = null;
-
+    currentUserName = null;
     startTime = null;
     delay = 1900;
 
-    constructor(canvas, ctx, mouse, sprites, users, cells) {
+    constructor() {
+        this.gameProcess = [false, false, false, false, false];
+        this.cellsIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+        this.cellsCheck = [2, 4, 5];
+        this.angle = 0.1;
+        this.opacityFatima = 0;
+        this.hammerCount = 0;
+    }
+
+    init (canvas, ctx, mouse, sprites, users, cells) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.mouse = mouse;
         this.sprites = sprites;
         this.cells = cells;
+        this.users = users;
 
         this.data = {
             board: {
@@ -51,7 +62,7 @@ export class GameOneScene {
                 color_2: '#4f3604'
             },
             users: {
-                listUsers: users,
+                listUsers: this.users,
                 font: '18px Comic Sans MS',
                 color: '#4f3604'
             },
@@ -82,24 +93,8 @@ export class GameOneScene {
                 y: 0
             },
         }
+
         this.currentUserName = this.data.users.listUsers[0].user;
-
-        this.gameProcess = [false, false, false, false, false];
-
-        this.userOne = false;
-        this.userTwo = false;
-        this.userThree = false;
-        this.user = false;
-        this.userEnd = false;
-
-        this.cellsIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-        this.cellsCheck = [2, 4, 5];
-
-        this.angle = 0.1;
-
-        this.opacityFatima = 0;
-
-        this.hammerCount = 0;
     }
 
     checkUser() {
@@ -146,6 +141,7 @@ export class GameOneScene {
     }
 
     render(opacity, timeStamp) {
+
         if (!this.startTime) {
             this.startTime = timeStamp;
         }
@@ -290,7 +286,11 @@ export class GameOneScene {
                     setTimeout(() => {
 
                         if (user === 4) {
-                            render.transitionMethod(SCENES.GAME_TWO);
+                            const text = [`В следующий раунд проходят`, `${this.data.users.listUsers[user - 1].user} и ${this.data.users.listUsers[user].user}`]
+                            this.setFatimaText(text)
+                            setTimeout(() => {
+                                render.transitionMethod(SCENES.GAME_TWO);
+                            }, 3000)
                         } else {
                             this.data.users.listUsers[user].game = true;
                             if (this.data.users.listUsers[user].currentUser) {
@@ -307,8 +307,8 @@ export class GameOneScene {
                                 this.setFatimaText(this.data.users.listUsers[user].textEnd)
                             }
                         }
-                    }, 1000);
-                }, 1500);
+                    }, 1500);
+                }, 2000);
             }
         }, delay)
     }
@@ -393,6 +393,8 @@ export class GameOneScene {
         this.data.hammer.x = this.mouse[x];
         this.data.hammer.y = this.mouse[y];
 
+        this.setFatimaText(this.data.users.listUsers[3].textStart)
+
         this.data.cells.forEach((cell, index) => {
             if (this.mouse[x] > cell.x
                 && this.mouse[x] < cell.x + this.sprites.cell.width
@@ -406,8 +408,12 @@ export class GameOneScene {
                     this.data.cells[index].grass = true;
                     this.gameProcess[3] = true;
                     setTimeout(() => {
+
+                        this.setFatimaText(this.data.users.listUsers[3].textEnd)
+
                         this.currentUserName = this.data.users.listUsers[4].user;
                         this.data.fatima.text.content = this.data.fatima.text.content_2;
+
                         if(!this.gameProcess[4] && this.gameProcess[3]) {
                             this.gameBot(5000, this.random(this.cellsIndexes, this.cellsCheck), 4);
                         }
@@ -421,3 +427,5 @@ export class GameOneScene {
         this.data.fatima.text.content = text;
     }
 }
+
+export const gameOneScene = new GameOneScene();
