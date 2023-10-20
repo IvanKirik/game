@@ -1,6 +1,5 @@
 import {render} from "../render.js";
 import {SCENES} from "../constants/scenes.constants.js";
-import {app} from "../app.js";
 
 class GameOneScene {
     canvas = null;

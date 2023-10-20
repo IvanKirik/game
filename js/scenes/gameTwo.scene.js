@@ -15,7 +15,7 @@ class GameTwoScene {
     angle = 0.1;
     shadow = false;
 
-    constructor(canvas, ctx, mouse, sprites, users, balls) {
+    constructor() {
         this.c = 0;
         this.c2 = 0;
         this.fatimaImgOpacity = 0;
@@ -76,8 +76,8 @@ class GameTwoScene {
                 y: canvas.height - sprites.fatimaTextRight.height - 50
             },
             fatimaText: {
-                content: ['Помоги Фатиме выбрать', 'последний ингредиент для', 'эликсира молодости'],
-                content_2: ['Поздравляем!', 'Вы верно подобрали', 'последний ингредиент для', 'зелья молодости!'],
+                content: [`${users[3].user}, последний  шаг`, 'отделяет вас от выигрыша,', 'попробуйте выбрать правильный', 'ингредиент для моего', 'эликсира молодости'],
+                content_2: [`${users[3].user}, поздравляем с победой!`, 'Вы успешно выбрали', 'необходимый ингредиент', 'для эликсира!'],
                 font: '14px Comic Sans MS',
                 color: '#4f3604'
             },

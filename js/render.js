@@ -16,7 +16,7 @@ export class Render {
     positionX2AliveBackground = 0;
     speed = 1;
 
-    backgroundOpacity = 0.6;
+    backgroundOpacity = 0.8;
     elementOpacity = 1;
 
     transition = false;
@@ -155,7 +155,7 @@ export class Render {
                 this.elementOpacity = 0;
             }
         } else {
-            if (this.backgroundOpacity > 0.4) {
+            if (this.backgroundOpacity > 0.8) {
                 this.backgroundOpacity -= 0.03;
             }
             if (this.elementOpacity < 1) {
