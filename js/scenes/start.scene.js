@@ -26,9 +26,11 @@ export class StartScene {
                 y: (canvas.height - sprites.board.width) / 2,
             },
             titleImage: {
-                img: sprites.titleImage,
-                x: (canvas.width - sprites.board.width) / 2 + (sprites.startScreenBoard.width - sprites.titleImage.width) / 2,
-                y: (canvas.height - sprites.board.width) / 2 - sprites.titleImage.height / 2,
+                img: sprites.titleImage2,
+                width: 308,
+                height: 40,
+                x: (canvas.width - sprites.board.width) / 2 + (sprites.startScreenBoard.width - 308) / 2,
+                y: (canvas.height - sprites.board.width) / 2 - 60 / 2,
             },
             text: {
                 content: 'Введите ваше имя',
@@ -109,7 +111,7 @@ export class StartScene {
         this.ctx.save();
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.board.img, this.data.board.x, this.data.board.y);
-        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
+        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y, this.data.titleImage.width, this.data.titleImage.height);
         this.ctx.font = this.data.text.font;
         this.ctx.fillStyle = this.data.text.color;
         this.ctx.fillText(this.data.text.content,this.data.text.x, this.data.text.y);

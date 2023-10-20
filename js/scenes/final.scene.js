@@ -18,9 +18,11 @@ export class FinalScene {
                 y: 50
             },
             titleImage: {
-                img: sprites.titleImage,
-                x: (canvas.width - sprites.titleImage.width) / 2,
-                y: 20
+                img: sprites.titleImage2,
+                x: (canvas.width - 308) / 2,
+                y: 20,
+                width: 308,
+                height: 40,
             },
             text: {
                 title: {
@@ -51,7 +53,7 @@ export class FinalScene {
         this.ctx.save()
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.board.img, this.data.board.x, this.data.board.y);
-        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
+        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y, this.data.titleImage.width, this.data.titleImage.height);
 
         this.ctx.font = this.data.text.title.font;
         this.ctx.fillStyle = this.data.text.title.color;
