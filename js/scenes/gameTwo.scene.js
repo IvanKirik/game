@@ -48,7 +48,7 @@ export class GameTwoScene {
                     font: '18px Comic Sans MS',
                     color: '#4f3604'
                 },
-                font: '25px Comic Sans MS',
+                font: '21px Comic Sans MS',
                 color: 'white',
                 color_2: '#4f3604'
             },

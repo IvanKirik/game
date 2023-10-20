@@ -33,7 +33,10 @@ export class GameOneScene {
             text: {
                 title: {
                     content: 'Дождитесь очереди',
-                    y: 50
+                    content_2: 'Разбейте горшок',
+                    content_3: 'Дождитесь окончания игры',
+                    y: 50,
+                    font: '21px Comic Sans MS'
                 },
                 title_2: {
                     content: 'Сейчас выбирает горшок',
@@ -43,7 +46,7 @@ export class GameOneScene {
                     content: 'Очередь',
                     y: this.cells[this.cells.length - 1].y + sprites.cell.height + 80
                 },
-                font: '25px Comic Sans MS',
+                font: '20px Comic Sans MS',
                 color: 'white',
                 color_2: '#4f3604'
             },
@@ -124,7 +127,7 @@ export class GameOneScene {
         }
 
         //удар молоточка при клике
-        if (this.mouse.tap && !this.user && this.userOne && this.userTwo && this.userThree && !this.userEnd) {
+        if (this.mouse.tap && this.checkUser()) {
             this.hitHammer();
         }
 
@@ -175,13 +178,21 @@ export class GameOneScene {
     }
 
     createTitles() {
+        let tittle = this.data.text.title.content;
+        if (this.gameProcess[2] && !this.gameProcess[3]) {
+            tittle = this.data.text.title.content_2;
+        } else if (this.gameProcess[3] && !this.gameProcess[4] || this.gameProcess[4]) {
+            tittle = this.data.text.title.content_3;
+        }
         this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
+
         //Заголовки
-        this.ctx.font = this.data.text.font;
+        this.ctx.font = this.data.text.title.font;
         this.ctx.fillStyle = this.data.text.color;
-        this.ctx.fillText(this.data.text.title.content, (this.canvas.width - this.ctx.measureText(this.data.text.title.content).width) / 2, this.data.text.title.y);
+        this.ctx.fillText(tittle, (this.canvas.width - this.ctx.measureText(tittle).width) / 2, this.data.text.title.y);
 
         //Меняем цвет, отрисовываем остальные заголовки
+        this.ctx.font = this.data.text.font;
         this.ctx.fillStyle = this.data.text.color_2;
         this.ctx.fillText(this.data.text.title_2.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_2.content).width) / 2, this.data.text.title_2.y);
         this.ctx.fillText(this.data.text.title_3.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_3.content).width) / 2, this.data.text.title_3.y);
@@ -381,6 +392,7 @@ export class GameOneScene {
         let y = typeEvent === 'mouse' ? 'y' : 'touchY';
         this.data.hammer.x = this.mouse[x];
         this.data.hammer.y = this.mouse[y];
+
         this.data.cells.forEach((cell, index) => {
             if (this.mouse[x] > cell.x
                 && this.mouse[x] < cell.x + this.sprites.cell.width
@@ -392,11 +404,11 @@ export class GameOneScene {
                     const vase = `vase_drop_green_${cell.id}`
                     cell.vase = this.sprites[vase];
                     this.data.cells[index].grass = true;
-                    this.user = true;
+                    this.gameProcess[3] = true;
                     setTimeout(() => {
                         this.currentUserName = this.data.users.listUsers[4].user;
                         this.data.fatima.text.content = this.data.fatima.text.content_2;
-                        if(!this.userEnd && this.user) {
+                        if(!this.gameProcess[4] && this.gameProcess[3]) {
                             this.gameBot(5000, this.random(this.cellsIndexes, this.cellsCheck), 4);
                         }
                     }, 500)
