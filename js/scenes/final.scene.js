@@ -1,15 +1,23 @@
-export class FinalScene {
+import {configs} from "../configs.js";
+
+class FinalScene {
     canvas = null;
     ctx = null;
     mouse = null;
     sprites = null;
+    users = null;
     durationTimer = 3;
 
     constructor(canvas, ctx, mouse, sprites) {
+
+    }
+
+    init(canvas, ctx, mouse, sprites, users) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.mouse = mouse;
         this.sprites = sprites;
+        this.users = users;
 
         this.data = {
             board: {
@@ -18,11 +26,9 @@ export class FinalScene {
                 y: 50
             },
             titleImage: {
-                img: sprites.titleImage2,
-                x: (canvas.width - 308) / 2,
-                y: 20,
-                width: 308,
-                height: 40,
+                img: sprites.titleImage,
+                x: (canvas.width - sprites.titleImage.width) / 2,
+                y: 20
             },
             text: {
                 title: {
@@ -30,7 +36,12 @@ export class FinalScene {
                     y: 50,
                     font: '20px Comic Sans MS',
                     color: 'white',
-                }
+                },
+                font: '16px Comic Sans MS',
+                color: 'green',
+                content_1: [`${configs.product} зарезервирован для вас на:`],
+                content_2: [`${this.users[3].user}, вы настоящий`, 'счастливчик победив четырех', 'участников розыгрыша.'],
+                content_3: [`Вы обеспечили себе`, 'возможность купить Tonefix', 'сегодня. Укажите ваш номер', 'телефона и наш оператор', 'перезвонит вам'],
             },
             time: {
                 minutes: [0, 3],
@@ -38,6 +49,14 @@ export class FinalScene {
                 count: 0,
                 x: '',
                 y: ''
+            },
+            button: {
+                font: '20px Comic Sans MS',
+                color: 'white',
+                text: 'ЗАКАЗАТЬ СЕЙЧАС',
+                img: sprites.button,
+                x: (canvas.width - sprites.button.width) / 2,
+                y: 470
             }
         }
     }
@@ -53,13 +72,38 @@ export class FinalScene {
         this.ctx.save()
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.board.img, this.data.board.x, this.data.board.y);
-        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y, this.data.titleImage.width, this.data.titleImage.height);
+        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
 
         this.ctx.font = this.data.text.title.font;
         this.ctx.fillStyle = this.data.text.title.color;
         this.ctx.fillText(this.data.text.title.content, (this.canvas.width - this.ctx.measureText(this.data.text.title.content).width) / 2, this.data.text.title.y);
-
+        this.createButton();
+        this.renderText();
         this.renderTimer(50, 70, this.data.time);
+    }
+
+    createButton() {
+        this.ctx.drawImage(this.data.button.img, this.data.button.x, this.data.button.y);
+        this.ctx.font = this.data.button.font;
+        this.ctx.fillStyle = this.data.button.color;
+        this.ctx.fillText(this.data.button.text, (this.canvas.width - this.ctx.measureText(this.data.button.text).width) / 2, this.data.button.y + 30)
+    }
+
+    renderText() {
+        this.ctx.font = this.data.text.font;
+        this.ctx.fillStyle = this.data.text.color;
+        this.ctx.fillText(this.data.text.content_1, (this.canvas.width - this.ctx.measureText(this.data.text.content_1).width) / 2, this.data.text.title.y + 40);
+
+        let margin = 20;
+        this.data.text.content_2.forEach(item => {
+            this.ctx.fillText(item, (this.canvas.width - this.ctx.measureText(item).width) / 2, this.data.text.title.y + 150 + margin);
+            margin += 15;
+        });
+
+        this.data.text.content_3.forEach(item => {
+            this.ctx.fillText(item, (this.canvas.width - this.ctx.measureText(item).width) / 2, this.data.text.title.y + 190 + margin);
+            margin += 15;
+        });
     }
 
     renderTimer(width, height, time) {
@@ -101,3 +145,5 @@ export class FinalScene {
         }, 1000);
     }
 }
+
+export const finalScene = new FinalScene();

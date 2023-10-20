@@ -8,7 +8,8 @@ export class Render {
     sprites = null;
     mouse = null;
 
-    input = null;
+    inputName = null;
+    inputPhone = null;
 
     currentScene = SCENES.START_SCENE;
 
@@ -23,18 +24,21 @@ export class Render {
     duration = 1200;
 
     constructor() {
+
     }
 
-    init(ctx, canvas, mouse, sprites, input, router) {
+    init(ctx, canvas, mouse, sprites, inputName, inputPhone, router) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.router = router;
         this.mouse = mouse;
         this.sprites = sprites;
-        this.input = input;
+        this.inputName = inputName;
+        this.inputPhone = inputPhone;
 
         this.positionX2AliveBackground = this.positionXAliveBackground + this.sprites.dust.width;
         this.start();
+        this.disabledInput(this.currentScene)
     }
 
     start() {
@@ -166,9 +170,25 @@ export class Render {
 
     disabledInput(currentScene) {
         if (currentScene !== SCENES.START_SCREEN) {
-            this.input.style.display = 'none';
+            this.inputName.style.display = 'none';
         } else {
-            this.input.style.display = 'block';
+            this.inputName.style.display = 'block';
+        }
+
+        if (currentScene !== SCENES.FINAL_SCENE) {
+            this.inputPhone.style.display = 'none';
+        } else {
+            this.inputPhone.style.display = 'block';
+            let opacity = 0;
+            setTimeout(() => {
+                const interval = setInterval(() => {
+                    opacity += 0.1;
+                    this.inputPhone.style.opacity = opacity.toString();
+                    if (opacity > 1) {
+                        clearInterval(interval);
+                    }
+                }, 300)
+            }, 1000)
         }
     }
 

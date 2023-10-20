@@ -7,7 +7,7 @@ export const IMAGES = {
     startScreenBoard: null,
     startBoard: null,
     titleImage: null,
-    titleImage2: null,
+    button: null,
     fatimaImg: null,
     sandImage: null,
     backgroundInput: null,

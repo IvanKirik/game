@@ -7,7 +7,7 @@ import {listUserScene} from "./scenes/listUsers.scene.js";
 import {gameOneScene} from "./scenes/gameOne.scene.js";
 import {gameTwoScene} from "./scenes/gameTwo.scene.js";
 import {StartScene} from "./scenes/start.scene.js";
-import {FinalScene} from "./scenes/final.scene.js";
+import {finalScene} from "./scenes/final.scene.js";
 
 export class App {
 
@@ -16,7 +16,8 @@ export class App {
     mouse = null;
     sprites = null;
 
-    input = null;
+    inputName = null;
+    inputPhone = null;
 
     listUsers = ['Махмуд', 'Мехмед', 'Ашот', '', 'Арафат'];
     users = null;
@@ -36,15 +37,16 @@ export class App {
         this.ctx = this.canvas.getContext('2d');
         this.mouse = new Mouse(this.canvas);
 
-        this.input = document.getElementById('input-name');
-        this.input.addEventListener('input', (e) => {
+        this.inputName = document.getElementById('input-name');
+        this.inputName.addEventListener('input', (e) => {
             const inputValue = e.target.value;
             const regex = /^[^!?#№;$&@/.+=\'\'\"\"-,]*$/;
 
             if (!regex.test(inputValue)) {
                 e.target.value = "";
             }
-        })
+        });
+        this.inputPhone = document.getElementById('input-phone');
     }
 
     start() {
@@ -79,14 +81,15 @@ export class App {
         listUserScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.listUsers);
         gameOneScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.cells);
         gameTwoScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.balls);
+        finalScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users)
 
-        render.init(this.ctx, this.canvas, this.mouse, this.sprites, this.input,
+        render.init(this.ctx, this.canvas, this.mouse, this.sprites, this.inputName, this.inputPhone,
             new Router(
-                new StartScene(this.canvas, this.ctx, this.mouse, this.sprites, this.input),
+                new StartScene(this.canvas, this.ctx, this.mouse, this.sprites, this.inputName),
                 listUserScene,
                 gameOneScene,
                 gameTwoScene,
-                new FinalScene(this.canvas, this.ctx, this.mouse, this.sprites)
+                finalScene
             ))
 
         const animation = new Animation(render);
@@ -210,6 +213,7 @@ export class App {
         listUserScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.listUsers);
         gameOneScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.cells);
         gameTwoScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.balls);
+        finalScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users)
     }
 }
 
