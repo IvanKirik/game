@@ -55,7 +55,7 @@ export class Render {
                                     this.transition = false;
                                     this.currentScene = SCENES.GAME_ONE
                                 }, this.duration)
-                            }, 2000)
+                            }, 13000)
                         }
                     }, this.duration)
                 }
@@ -81,11 +81,19 @@ export class Render {
                     }, this.duration)
                 }
 
-                if (action === 'startScreen') {
+                if (action === SCENES.START_SCREEN) {
                     this.transition = true;
                     setTimeout(() => {
                         this.transition = false;
                         this.currentScene = SCENES.START_SCENE;
+                    }, this.duration)
+                }
+
+                if (action === SCENES.LIST_USERS) {
+                    this.transition = true;
+                    setTimeout(() => {
+                        this.transition = false;
+                        this.currentScene = SCENES.LIST_USERS;
                     }, this.duration)
                 }
             })
@@ -101,7 +109,7 @@ export class Render {
         this.transitionAliveBackground()
 
 
-        this.router[this.currentScene].update();
+        this.router[this.currentScene].update(this.elementOpacity, timeStamp, this.transition);
         this.mouse.tick()
     }
 
@@ -177,7 +185,7 @@ export class Render {
                         this.transition = false;
                         this.currentScene = SCENES.GAME_ONE
                     }, this.duration)
-                }, 10000)
+                }, 13000)
             }
         }, this.duration)
     }

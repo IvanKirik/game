@@ -97,22 +97,25 @@ export class App {
         const startX = (width - sprites.board.width) / 2;
 
         function createUsers() {
-            let index = 1;
+            let index = 0;
             let users = [];
             for (let row = 1; row < size + 1; row++) {
                 users.push(createUser(row, listUsers[row-1], index))
+                index++
             }
             return users;
         }
 
-        function createUser(row, user) {
+        function createUser(row, user, index) {
             return {
                 row,
                 user,
                 x: startX * 4,
                 y: startY + lineHeight * row,
                 game: false,
-                currentUser: false
+                currentUser: false,
+                textStart: [`${user}, в одном из этих`, 'горшков лежит волшебная', 'трава для эликсира молодости,', 'попробуйте найти ее,', 'разбив один из горшков'],
+                textEnd: [`${user}`, 'к сожалению вы проиграли.', `Ход переходит к ${listUsers[index + 1]}`]
             }
         }
         return createUsers();

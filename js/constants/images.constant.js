@@ -20,6 +20,7 @@ export const IMAGES = {
     boiler: null,
     hammer: null,
     hammer_2: null,
+    star: null,
     drop: null,
     dust: null,
     grass: null,
