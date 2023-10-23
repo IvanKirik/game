@@ -88,7 +88,8 @@ class GameOneScene {
             hammer: {
                 img: sprites.hammer,
                 x: 0,
-                y: 0
+                y: 0,
+                opacity: 0
             },
         }
 
@@ -182,7 +183,7 @@ class GameOneScene {
         //Отрисовываем кувшины
         this.createCells();
 
-        this.setHammer(this.data.hammer.img, this.data.hammer.x, this.data.hammer.y);
+        this.setHammer(this.data.hammer.img, this.data.hammer.opacity, this.data.hammer.x, this.data.hammer.y);
     }
 
     createTitles() {
@@ -291,11 +292,11 @@ class GameOneScene {
             }
             return timeout(this.randomTime(3, 7));
         }).then(() => {
-            this.transHammer(number);
             if (this.check(number)) {
                 return timeout(this.randomTime(3, 7));
             }
         }).then(() => {
+            this.transHammer(number);
             if (this.hammerCount === user) {
                 this.hammerCount++
                 this.hitHammer();
@@ -358,6 +359,7 @@ class GameOneScene {
     transHammer(numberCell) {
         this.data.hammer.x = this.cells[numberCell].x + 40;
         this.data.hammer.y = this.cells[numberCell].y + 40;
+        this.data.hammer.opacity = 1;
     }
 
     updatePositionHammer(typeEvent) {
@@ -368,8 +370,9 @@ class GameOneScene {
         this.data.hammer.y = this.mouse[y];
     }
 
-    setHammer(sprites, x, y) {
+    setHammer(sprites, opacity, x, y) {
         this.ctx.save();
+        this.ctx.globalAlpha = opacity
         this.ctx.drawImage(sprites, x - sprites.width / 2, y - sprites.height / 2);
         this.ctx.restore()
     }

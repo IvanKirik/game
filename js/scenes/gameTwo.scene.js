@@ -394,7 +394,7 @@ class GameTwoScene {
                                 render.transitionMethod(SCENES.FINAL_SCENE);
                                 this.c++
                             }
-                        }, 3000)
+                        }, 5000)
                     }
                 }, 10)
             }
