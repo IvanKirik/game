@@ -104,7 +104,6 @@ export class Render {
         })
     }
 
-
     clear = () => {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
@@ -122,6 +121,7 @@ export class Render {
         this.createBackground();
         this.createAliveBackground();
         this.ctx.restore();
+        this.ctx.direction = 'rtl'
         this.router[this.currentScene].render(this.elementOpacity, timeStamp, this.transition);
 
         this.transitionElements(this.transition);

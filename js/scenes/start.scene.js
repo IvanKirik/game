@@ -34,7 +34,7 @@ export class StartScene {
                 content: 'أدخل اسمك',
                 font: '25px Comic Sans MS',
                 color: 'white',
-                x: (canvas.width - ctx.measureText('Введите ваше имя').width) / 4,
+                x: canvas.width / 2,
                 y: (canvas.height - sprites.board.width) / 2,
             },
             backgroundInput: {
@@ -64,7 +64,7 @@ export class StartScene {
                     y: 600
                 },
                 text: {
-                    content: ['Испытай удачу,', `возможно ${configs.product} достанется`, 'тебе'],
+                    content: ['جرب حظك،', `ربما ستحصل على ${configs.product}`],
                     font: '14px Comic Sans MS',
                     color: '#4f3604',
                     x: 30,
@@ -118,13 +118,13 @@ export class StartScene {
         this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
         this.ctx.font = this.data.text.font;
         this.ctx.fillStyle = this.data.text.color;
+        this.ctx.textAlign = 'center';
         this.ctx.fillText(this.data.text.content,this.data.text.x, this.data.text.y);
         this.ctx.drawImage(this.data.backgroundInput.img, this.data.backgroundInput.x, this.data.backgroundInput.y);
         this.ctx.fillStyle = this.data.button.color;
 
         this.button();
 
-        this.ctx.fillText(this.data.button.content, (this.canvas.width - this.ctx.measureText(this.data.button.content).width) / 2, this.data.button.y);
         this.ctx.restore();
 
         if (progress > this.delay) {
@@ -143,6 +143,7 @@ export class StartScene {
             this.data.button.yButton,
             this.data.button.width,
             this.data.button.height)
+        this.ctx.fillText(this.data.button.content, this.canvas.width / 2, this.data.button.y);
         this.ctx.restore();
     }
 
@@ -159,9 +160,10 @@ export class StartScene {
         this.ctx.drawImage(this.data.fatima.textImg.img, this.data.fatima.textImg.x, this.data.fatima.textImg.y);
         this.ctx.font = this.data.fatima.text.font;
         this.ctx.fillStyle = this.data.fatima.text.color;
+        this.ctx.textAlign = 'right';
         let margin = 20;
         text.forEach(item => {
-            this.ctx.fillText(item, this.data.fatima.textImg.x + 20, this.data.fatima.textImg.y + margin);
+            this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 20, this.data.fatima.textImg.y + margin);
             margin += 15;
         });
         this.ctx.restore();

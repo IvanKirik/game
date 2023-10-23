@@ -42,6 +42,7 @@ class FinalScene {
                 content_1: [`تم حجز ${configs.product} لك على:`],
                 content_2: [`${this.users[3].user}, أنت محظوظة حقًا`, 'بفوزك على أربعة', 'مشاركين في السحب.'],
                 content_3: [`لقد مكنكِ فوزكِ من شراء`, `${configs.product} اليوم. أدخلي رقم هاتفك،`, 'وسيقوم موظف الهاتف لدينا بالاتصال بك'],
+                contentTimerEnd: [' انتهى حجز الوقت الخاص بك،', 'ولكن قبل بدء السحب التالي،', `لا يزال لديك الفرصة لطلب ${configs.product}.`, 'لا تفوتي الفرصة، واطلبيه الآن.']
             },
             time: {
                 minutes: [0, 3],
@@ -59,6 +60,8 @@ class FinalScene {
                 y: 470
             }
         }
+
+        this.timerEnd = false;
     }
 
     update() {
@@ -72,38 +75,54 @@ class FinalScene {
         this.ctx.save()
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.board.img, this.data.board.x, this.data.board.y);
-        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
-
-        this.ctx.font = this.data.text.title.font;
-        this.ctx.fillStyle = this.data.text.title.color;
-        this.ctx.fillText(this.data.text.title.content, (this.canvas.width - this.ctx.measureText(this.data.text.title.content).width) / 2, this.data.text.title.y);
+        this.createTitle();
         this.createButton();
         this.renderText();
         this.renderTimer(50, 70, this.data.time);
     }
 
+    createTitle() {
+        const x = this.canvas.width / 2;
+        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
+        this.ctx.font = this.data.text.title.font;
+        this.ctx.fillStyle = this.data.text.title.color;
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.data.text.title.content, x, this.data.text.title.y);
+    }
+
     createButton() {
+        const x = this.canvas.width / 2;
         this.ctx.drawImage(this.data.button.img, this.data.button.x, this.data.button.y);
         this.ctx.font = this.data.button.font;
         this.ctx.fillStyle = this.data.button.color;
-        this.ctx.fillText(this.data.button.text, (this.canvas.width - this.ctx.measureText(this.data.button.text).width) / 2, this.data.button.y + 30)
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.data.button.text, x, this.data.button.y + 30)
     }
 
     renderText() {
+        const x = this.canvas.width / 2;
         this.ctx.font = this.data.text.font;
         this.ctx.fillStyle = this.data.text.color;
-        this.ctx.fillText(this.data.text.content_1, (this.canvas.width - this.ctx.measureText(this.data.text.content_1).width) / 2, this.data.text.title.y + 40);
-
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.data.text.content_1, x, this.data.text.title.y + 40);
         let margin = 20;
         this.data.text.content_2.forEach(item => {
-            this.ctx.fillText(item, (this.canvas.width - this.ctx.measureText(item).width) / 2, this.data.text.title.y + 150 + margin);
+            this.ctx.fillText(item, x, this.data.text.title.y + 150 + margin);
             margin += 15;
         });
 
-        this.data.text.content_3.forEach(item => {
-            this.ctx.fillText(item, (this.canvas.width - this.ctx.measureText(item).width) / 2, this.data.text.title.y + 190 + margin);
-            margin += 15;
-        });
+        if(!this.timerEnd) {
+            this.data.text.content_3.forEach(item => {
+                this.ctx.fillText(item, x, this.data.text.title.y + 190 + margin);
+                margin += 15;
+            });
+        } else {
+            this.data.text.contentTimerEnd.forEach(item => {
+                this.ctx.fillText(item, x, this.data.text.title.y + 190 + margin);
+                margin += 15;
+            });
+        }
+
     }
 
     renderTimer(width, height, time) {
@@ -141,6 +160,7 @@ class FinalScene {
             if (--duration < 0) {
                 clearInterval(t); // Остановка таймера по истечении времени
                 // Дополнительное действие по окончании времени
+                this.timerEnd = true;
             }
         }, 1000);
     }

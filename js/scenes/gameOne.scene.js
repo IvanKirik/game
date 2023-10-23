@@ -157,7 +157,7 @@ class GameOneScene {
         this.createListUsers();
 
         //Текущий юзер
-        this.currentUser(this.currentUserName, (this.canvas.width - this.ctx.measureText(this.currentUserName).width) / 2, this.data.text.title_2.y + 30);
+        this.currentUser(this.currentUserName, this.canvas.width / 2, this.data.text.title_2.y + 30);
 
         if (progress > this.delay - 1000) {
             //Отрисовываем фатиму
@@ -179,18 +179,21 @@ class GameOneScene {
         } else if (this.gameProcess[3] && !this.gameProcess[4] || this.gameProcess[4]) {
             tittle = this.data.text.title.content_3;
         }
+
+
         this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
 
         //Заголовки
         this.ctx.font = this.data.text.title.font;
         this.ctx.fillStyle = this.data.text.color;
-        this.ctx.fillText(tittle, (this.canvas.width - this.ctx.measureText(tittle).width) / 2, this.data.text.title.y);
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(tittle, this.canvas.width / 2, this.data.text.title.y);
 
         //Меняем цвет, отрисовываем остальные заголовки
         this.ctx.font = this.data.text.font;
         this.ctx.fillStyle = this.data.text.color_2;
-        this.ctx.fillText(this.data.text.title_2.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_2.content).width) / 2, this.data.text.title_2.y);
-        this.ctx.fillText(this.data.text.title_3.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_3.content).width) / 2, this.data.text.title_3.y);
+        this.ctx.fillText(this.data.text.title_2.content, this.canvas.width / 2, this.data.text.title_2.y);
+        this.ctx.fillText(this.data.text.title_3.content, this.canvas.width / 2, this.data.text.title_3.y);
     }
 
     createListUsers() {
@@ -210,7 +213,7 @@ class GameOneScene {
             }
             this.ctx.fillText(
                 userName,
-                (this.canvas.width - this.ctx.measureText(userName).width) / 2,
+                this.canvas.width / 2,
                 this.cells[this.cells.length - 1].y + this.sprites.cell.height + 80 + user.row * margin);
             if (user.game) {
                 this.setSandToUser(this.sprites.sandImage, (this.canvas.width - this.ctx.measureText(userName).width) / 2 - this.sprites.sandImage.width / 6, this.cells[this.cells.length - 1].y + this.sprites.cell.height + 65 + user.row * margin)
@@ -250,9 +253,10 @@ class GameOneScene {
         this.ctx.drawImage(this.data.fatima.textImg.img, this.data.fatima.textImg.x, this.data.fatima.textImg.y);
         this.ctx.font = this.data.fatima.text.font;
         this.ctx.fillStyle = this.data.fatima.text.color;
+        this.ctx.textAlign = 'right';
         let margin = 20;
         text.forEach(item => {
-            this.ctx.fillText(item, this.data.fatima.textImg.x + 20, this.data.fatima.textImg.y + margin);
+            this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 20, this.data.fatima.textImg.y + margin);
             margin += 15;
         });
         this.ctx.restore();

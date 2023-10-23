@@ -290,22 +290,11 @@ class GameTwoScene {
         this.ctx.save(); // сохраняем текущее состояние контекста
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.board.img, this.data.board.x, this.data.board.y);
-        this.ctx.drawImage(this.data.titleImg.img, this.data.titleImg.x, this.data.titleImg.y);
         this.ctx.drawImage(this.data.boiler.img, this.data.boiler.x, this.data.boiler.y);
 
-        this.ctx.font = this.data.text.font;
-        this.ctx.fillStyle = this.data.text.color;
-        this.ctx.fillText(this.data.text.title_1.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_1.content).width) / 2, this.data.text.title_1.y);
-        this.ctx.fillStyle = this.data.text.color_2;
-        this.ctx.fillText(this.data.text.title_2.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_2.content).width) / 2, this.data.text.title_2.y);
-        this.ctx.fillText(this.data.text.title_3.content, (this.canvas.width - this.ctx.measureText(this.data.text.title_3.content).width) / 2, this.data.text.title_3.y);
+        this.createTitle();
 
-
-        this.ctx.font = this.data.text.users.font;
-        this.ctx.fillStyle = this.data.text.users.color;
-        this.ctx.fillText(this.data.text.users.listUsers[3].user, (this.canvas.width - this.ctx.measureText(this.data.text.users.listUsers[3].user).width) / 2, this.data.text.title_2.y + 30);
-        this.ctx.fillText(`${this.data.text.users.listUsers[3].row}. ${this.data.text.users.listUsers[3].user}`, (this.canvas.width - this.ctx.measureText(this.data.text.users.listUsers[3].user).width) / 2, this.data.text.users.user1Y);
-        this.ctx.fillText(`${this.data.text.users.listUsers[4].row}. ${this.data.text.users.listUsers[4].user}`, (this.canvas.width - this.ctx.measureText(this.data.text.users.listUsers[4].user).width) / 2, this.data.text.users.user2Y);
+        this.createListUsers();
 
         //Цветы
         this.createFlower(transition)
@@ -326,6 +315,28 @@ class GameTwoScene {
         this.fire(this.data.fire.opacity, transition);
     }
 
+    createTitle() {
+        const x = this.canvas.width / 2;
+        this.ctx.drawImage(this.data.titleImg.img, this.data.titleImg.x, this.data.titleImg.y);
+        this.ctx.font = this.data.text.font;
+        this.ctx.fillStyle = this.data.text.color;
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.data.text.title_1.content, x, this.data.text.title_1.y);
+        this.ctx.fillStyle = this.data.text.color_2;
+        this.ctx.fillText(this.data.text.title_2.content, x, this.data.text.title_2.y);
+        this.ctx.fillText(this.data.text.title_3.content, x, this.data.text.title_3.y);
+    }
+
+    createListUsers() {
+        const x = this.canvas.width / 2;
+        this.ctx.font = this.data.text.users.font;
+        this.ctx.fillStyle = this.data.text.users.color;
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.data.text.users.listUsers[3].user, x, this.data.text.title_2.y + 30);
+        this.ctx.fillText(`${this.data.text.users.listUsers[3].row}. ${this.data.text.users.listUsers[3].user}`, x, this.data.text.users.user1Y);
+        this.ctx.fillText(`${this.data.text.users.listUsers[4].row}. ${this.data.text.users.listUsers[4].user}`, x, this.data.text.users.user2Y);
+    }
+
     createBalls(transition) {
         this.data.balls.forEach(ball => {
             this.ctx.save();
@@ -336,7 +347,6 @@ class GameTwoScene {
     }
 
     createFlower(transition) {
-
         this.data.balls.forEach(ball => {
             let rotationAngle = this.rotationAngle; // Угол поворота в градусах
             let centerX = ball.flower.x + ball.flower.img.width / 2; // Координаты центра изображения по оси X
@@ -367,9 +377,10 @@ class GameTwoScene {
         this.ctx.drawImage(this.data.fatimaTextImg.img, this.data.fatimaTextImg.x, this.data.fatimaTextImg.y);
         this.ctx.font = this.data.fatimaText.font;
         this.ctx.fillStyle = this.data.fatimaText.color;
+        this.ctx.textAlign = 'right';
         let margin = 20;
         text.forEach(item => {
-            this.ctx.fillText(item, this.data.fatimaTextImg.x + 20, this.data.fatimaTextImg.y + margin);
+            this.ctx.fillText(item, this.data.fatimaTextImg.x + 220, this.data.fatimaTextImg.y + margin);
             margin += 15;
         })
     }

@@ -88,38 +88,9 @@ export class ListUsersScene {
         this.ctx.save();
         this.ctx.globalAlpha = opacity;
         this.ctx.drawImage(this.data.board.img, this.data.board.x, this.data.board.y);
-        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
-        this.ctx.font = this.data.text.font;
-        this.ctx.fillStyle = this.data.text.color;
-        this.ctx.fillText(this.data.text.content, this.data.text.x, this.data.text.y);
-        this.ctx.font = this.data.usersText.font;
-        this.ctx.fillStyle = this.data.usersText.color;
-
-        this.data.usersText.content.forEach((user, index) => {
-            if (index < 4) {
-                this.ctx.fillText(
-                    `${user.row}. ${user.user}`,
-                    user.x,
-                    user.y
-                )
-                if (index === 3) {
-                    this.ctx.drawImage(
-                        this.sprites.star,
-                        user.x + this.ctx.measureText(`${user.row}. ${user.user}`).width + 5,
-                        user.y - (this.sprites.star.height / 2) + 5, 25, 25);
-                }
-            }
-        })
-
-
-        this.ctx.save();
-        this.ctx.globalAlpha = this.data.usersText.opacity;
-        this.ctx.fillText(
-            `${this.data.usersText.content[4].row}. ${this.setFifeUser ? this.data.usersText.content[4].user : 'في انتظار مشارك واحد'}`,
-            this.data.usersText.content[4].x,
-            this.data.usersText.content[4].y
-        );
-        this.ctx.restore();
+        this.createTittle();
+        this.createListUsers();
+        this.createFifeUser();
 
         if (progress >= this.delay) {
             this.setFifeUser = true;
@@ -137,6 +108,46 @@ export class ListUsersScene {
 
     }
 
+    createTittle() {
+        this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
+        this.ctx.font = this.data.text.font;
+        this.ctx.fillStyle = this.data.text.color;
+        this.ctx.textAlign = 'center';
+        this.ctx.fillText(this.data.text.content, this.canvas.width / 2, this.data.text.y);
+    }
+
+    createListUsers() {
+        this.ctx.font = this.data.usersText.font;
+        this.ctx.fillStyle = this.data.usersText.color;
+        this.ctx.textAlign = 'right';
+        this.data.usersText.content.forEach((user, index) => {
+            if (index < 4) {
+                this.ctx.fillText(
+                    `${user.row}. ${user.user}`,
+                    user.x + 230,
+                    user.y
+                )
+                if (index === 3) {
+                    this.ctx.drawImage(
+                        this.sprites.star,
+                        user.x + this.ctx.measureText(`${user.row}. ${user.user}`).width + 50,
+                        user.y - (this.sprites.star.height / 2) + 5, 25, 25);
+                }
+            }
+        })
+    }
+
+    createFifeUser() {
+        this.ctx.save();
+        this.ctx.globalAlpha = this.data.usersText.opacity;
+        this.ctx.fillText(
+            `${this.data.usersText.content[4].row}. ${this.setFifeUser ? this.data.usersText.content[4].user : 'في انتظار مشارك واحد'}`,
+            this.data.usersText.content[4].x + 230,
+            this.data.usersText.content[4].y
+        );
+        this.ctx.restore();
+    }
+
     fatimaImg(opacityFatima) {
         this.ctx.save();
         this.ctx.globalAlpha = opacityFatima;
@@ -152,7 +163,7 @@ export class ListUsersScene {
         this.ctx.fillStyle = this.data.fatima.text.color;
         let margin = 20;
         text.forEach(item => {
-            this.ctx.fillText(item, this.data.fatima.textImg.x + 20, this.data.fatima.textImg.y + margin);
+            this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 20, this.data.fatima.textImg.y + margin);
             margin += 15;
         });
         this.ctx.restore();
