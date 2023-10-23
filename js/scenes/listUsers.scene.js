@@ -1,4 +1,3 @@
-import {app} from "../app.js";
 
 export class ListUsersScene {
     canvas = null;

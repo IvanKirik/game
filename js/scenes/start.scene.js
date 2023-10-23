@@ -1,8 +1,8 @@
-import {listUserScene} from "./listUsers.scene.js";
 import {render} from "../render.js";
 import {SCENES} from "../constants/scenes.constants.js";
 import {configs} from "../configs.js";
-import {app} from "../app.js";
+import {game} from "../game.js";
+
 
 export class StartScene {
 
@@ -160,7 +160,7 @@ export class StartScene {
             && this.mouse[y] > this.data.button.y - 30
             && this.mouse[y] < this.data.button.y + 30) {
             if(this.input.value.trim()) {
-                app.updateUserList(this.input.value);
+                game.updateUserList(this.input.value);
                 render.transitionMethod(SCENES.LIST_USERS)
             }
         }

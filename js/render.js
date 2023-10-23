@@ -13,11 +13,12 @@ export class Render {
 
     currentScene = SCENES.START_SCENE;
 
+    background = null;
     positionXAliveBackground = 0;
     positionX2AliveBackground = 0;
-    speed = 1;
+    speed = 6;
 
-    backgroundOpacity = 0.6;
+    backgroundOpacity = 0.8;
     elementOpacity = 1;
 
     transition = false;
@@ -111,7 +112,6 @@ export class Render {
     update = (timeStamp, pTimeStamp, diff, fps, secondPart) => {
         this.transitionAliveBackground()
 
-
         this.router[this.currentScene].update(this.elementOpacity, timeStamp, this.transition);
         this.mouse.tick()
     }
@@ -125,6 +125,8 @@ export class Render {
         this.router[this.currentScene].render(this.elementOpacity, timeStamp, this.transition);
 
         this.transitionElements(this.transition);
+
+
     }
 
     createBackground() {
@@ -134,7 +136,6 @@ export class Render {
     createAliveBackground() {
         this.ctx.globalAlpha = this.backgroundOpacity;
         this.ctx.drawImage(this.sprites.dust, this.positionXAliveBackground, 0);
-        this.ctx.drawImage(this.sprites.dust, this.positionX2AliveBackground, 0);
     }
 
     transitionAliveBackground() {

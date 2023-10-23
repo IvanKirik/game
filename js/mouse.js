@@ -9,6 +9,8 @@ export class Mouse {
         this.scaleX = this.canvasComputedStyleWidth / element.width;
         this.scaleY = this.canvasComputedStyleHeight / element.height;
 
+        this.update(element);
+
         this.touchX = 0;
         this.touchY = 0;
         this.touchMove = false;
@@ -87,5 +89,14 @@ export class Mouse {
         this.left = event.buttons === 1;
         this.middle = event.buttons === 4;
         this.right = event.buttons === 2;
+    }
+
+    update(element) {
+        if (window) {
+            window.addEventListener('scroll', () => {
+                this.rect = element.getBoundingClientRect();
+                this.computedStyles = getComputedStyle(element);
+            })
+        }
     }
 }

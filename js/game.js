@@ -9,7 +9,7 @@ import {gameTwoScene} from "./scenes/gameTwo.scene.js";
 import {StartScene} from "./scenes/start.scene.js";
 import {finalScene} from "./scenes/final.scene.js";
 
-export class App {
+export class Game {
 
     canvas = null;
     ctx = null;
@@ -223,7 +223,7 @@ export class App {
     }
 }
 
-export const app = new App();
-app.start();
+export const game = new Game();
+game.start();
 
 

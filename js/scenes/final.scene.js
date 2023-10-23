@@ -1,5 +1,6 @@
 import {configs} from "../configs.js";
-import {app} from "../app.js";
+import {game} from "../game.js";
+
 
 class FinalScene {
     canvas = null;
@@ -185,7 +186,7 @@ class FinalScene {
             && this.mouse[y] > this.data.button.y - 50
             && this.mouse[y] < this.data.button.y + 50) {
             if (this.inputPhone.value.trim()) {
-               app.send();
+               game.send();
             }
         }
     }
