@@ -311,7 +311,7 @@ class GameTwoScene {
         this.ctx.textAlign = 'right';
         let margin = 20;
         text.forEach(item => {
-            this.ctx.fillText(item, this.data.fatimaTextImg.x + 220, this.data.fatimaTextImg.y + margin);
+            this.ctx.fillText(item, this.data.fatimaTextImg.x + 220, this.data.fatimaTextImg.y + margin + 10);
             margin += 15;
         })
     }

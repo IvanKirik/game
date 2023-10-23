@@ -161,7 +161,7 @@ export class ListUsersScene {
         this.ctx.fillStyle = this.data.fatima.text.color;
         let margin = 20;
         text.forEach(item => {
-            this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 20, this.data.fatima.textImg.y + margin);
+            this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 20, this.data.fatima.textImg.y + margin + 10);
             margin += 15;
         });
         this.ctx.restore();

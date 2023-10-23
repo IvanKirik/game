@@ -68,7 +68,7 @@ export class StartScene {
                     font: '20px Comic Sans MS',
                     color: '#4f3604',
                     x: 30,
-                    y: 440
+                    y: 300
                 }
             },
         }
@@ -145,7 +145,7 @@ export class StartScene {
         this.ctx.textAlign = 'right';
         let margin = 20;
         text.forEach(item => {
-            this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 20, this.data.fatima.textImg.y + margin);
+            this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 20, this.data.fatima.textImg.y + margin + 10);
             margin += 15;
         });
         this.ctx.restore();

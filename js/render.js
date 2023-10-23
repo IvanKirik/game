@@ -16,9 +16,9 @@ export class Render {
     background = null;
     positionXAliveBackground = 0;
     positionX2AliveBackground = 0;
-    speed = 2;
+    speed = 7;
 
-    backgroundOpacity = 0.8;
+    backgroundOpacity = 0.6;
     elementOpacity = 1;
 
     transition = false;
@@ -136,6 +136,7 @@ export class Render {
     createAliveBackground() {
         this.ctx.globalAlpha = this.backgroundOpacity;
         this.ctx.drawImage(this.sprites.dust, this.positionXAliveBackground, 0);
+        this.ctx.drawImage(this.sprites.dust, this.positionX2AliveBackground, 0);
     }
 
     transitionAliveBackground() {

@@ -80,8 +80,8 @@ class GameOneScene {
                     content: [`${users[0].user}`,  'يحتوي أحد هذه الأواني' , 'على عشبة سحرية لإكسير', ' الشباب، حاولي العثور', 'عليها من خلال كسر أحد الأواني'],
                     font: '16px Comic Sans MS',
                     color: '#4f3604',
-                    x: 30,
-                    y: 440
+                    x: 20,
+                    y: 450
                 }
             },
             cells: this.cells,
@@ -268,8 +268,14 @@ class GameOneScene {
         this.ctx.fillStyle = this.data.fatima.text.color;
         this.ctx.textAlign = 'right';
         let margin = 20;
-        text.forEach(item => {
-            this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 20, this.data.fatima.textImg.y + margin);
+        text.forEach((item, index) => {
+            if(index === 0) {
+                this.ctx.font = 'bold' + this.data.fatima.text.font;
+                this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 10, this.data.fatima.textImg.y + margin);
+            } else {
+                this.ctx.font = this.data.fatima.text.font;
+                this.ctx.fillText(item, this.data.fatima.textImg.x + this.data.fatima.textImg.img.width - 10, this.data.fatima.textImg.y + margin);
+            }
             margin += 15;
         });
         this.ctx.restore();
