@@ -77,7 +77,7 @@ class GameOneScene {
                     y: 600
                 },
                 text: {
-                    content: [''],
+                    content: [`${users[0].user}`,  'يحتوي أحد هذه الأواني' , 'على عشبة سحرية لإكسير', ' الشباب، حاولي العثور', 'عليها من خلال كسر أحد الأواني'],
                     font: '16px Comic Sans MS',
                     color: '#4f3604',
                     x: 30,
@@ -233,7 +233,7 @@ class GameOneScene {
             if (index === 3) {
                 this.ctx.drawImage(
                     this.sprites.star,
-                    this.canvas.width / 2 - this.ctx.measureText(userName).width + 15,
+                    this.canvas.width / 2 - this.ctx.measureText(userName).width,
                     this.cells[this.cells.length - 1].y + this.sprites.cell.height + 80 + user.row * margin - (this.sprites.star.height / 2) + 5, 25, 25);
             }
         })
@@ -430,9 +430,9 @@ class GameOneScene {
                     const vase = `vase_drop_green_${cell.id}`
                     cell.vase = this.sprites[vase];
                     this.data.cells[index].grass = true;
-                    this.gameProcess[3] = true;
-                    setTimeout(() => {
 
+                    setTimeout(() => {
+                        this.gameProcess[3] = true;
                         this.setFatimaText(this.data.users.listUsers[3].textEnd)
 
                         this.currentUserName = this.data.users.listUsers[4].user;
@@ -440,7 +440,7 @@ class GameOneScene {
                         if(!this.gameProcess[4] && this.gameProcess[3]) {
                             this.gameBot( this.random(this.cellsIndexes, this.cellsCheck), 4);
                         }
-                    }, 500)
+                    }, 1000)
                 }
             }
         })

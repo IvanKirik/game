@@ -46,7 +46,6 @@ export class App {
                 e.target.value = "";
             }
         });
-        this.inputPhone = document.getElementById('input-phone');
     }
 
     start() {
@@ -74,6 +73,8 @@ export class App {
 
     init() {
         this.input = document.getElementById('input-name');
+        this.inputPhone = document.getElementById('input-phone');
+
         this.users = this.createListUsers(this.listUsers, this.canvas.width, this.canvas.height, this.sprites);
         this.cells = this.createCells(this.sprites, this.canvas.width, this.canvas.height);
         this.balls = this.createBalls(this.sprites, this.canvas.width, this.canvas.height);
@@ -214,7 +215,11 @@ export class App {
         listUserScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.listUsers);
         gameOneScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.cells);
         gameTwoScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.balls);
-        finalScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users)
+        finalScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.inputPhone)
+    }
+
+    send() {
+        console.log(`Имя: ${this.inputName.value}. Телефон: ${this.inputPhone.value}`)
     }
 }
 
