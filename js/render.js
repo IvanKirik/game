@@ -169,7 +169,7 @@ export class Render {
     }
 
     disabledInput(currentScene) {
-        if (currentScene !== SCENES.START_SCREEN) {
+        if (currentScene !== SCENES.START_SCENE) {
             this.inputName.style.display = 'none';
         } else {
             this.inputName.style.display = 'block';
@@ -188,8 +188,7 @@ export class Render {
                         clearInterval(interval);
                     }
                 }, 300)
-            }, 1000)
-        }
+            }, 1000)        }
     }
 
     transitionMethod(scene) {

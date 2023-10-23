@@ -33,10 +33,10 @@ export class ListUsersScene {
                 y: 20
             },
             text: {
-                content: 'Ожидание участников',
+                content: 'في انتظار المشاركين',
                 font: '25px Comic Sans MS',
                 color: 'white',
-                x: (canvas.width - ctx.measureText('Ожидание участников').width) / 5,
+                x: (canvas.width - ctx.measureText('في انتظار المشاركين').width) / 5,
                 y: sprites.titleImage.height / 2 + 20,
             },
             usersText: {
@@ -58,8 +58,9 @@ export class ListUsersScene {
                     y: 600
                 },
                 text: {
-                    content: ['Ждем, пока соберутся', '5 участников'],
-                    content_2: ['Все участники в сборе,', 'розыгрыш начинается'],
+
+                    content: ['نحن بانتظار تجمُّ ', '5 مشاركين.'],
+                    content_2: [' بمجرد تجمّع كل المشاركين،', ' تبدأ اللعبة'],
                     font: '14px Comic Sans MS',
                     color: '#4f3604',
                     x: 30,
@@ -114,7 +115,7 @@ export class ListUsersScene {
         this.ctx.save();
         this.ctx.globalAlpha = this.data.usersText.opacity;
         this.ctx.fillText(
-            `${this.data.usersText.content[4].row}. ${this.setFifeUser ? this.data.usersText.content[4].user : 'Ожидание'}`,
+            `${this.data.usersText.content[4].row}. ${this.setFifeUser ? this.data.usersText.content[4].user : 'في انتظار مشارك واحد'}`,
             this.data.usersText.content[4].x,
             this.data.usersText.content[4].y
         );

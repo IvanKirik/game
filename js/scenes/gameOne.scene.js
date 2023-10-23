@@ -42,18 +42,18 @@ class GameOneScene {
             },
             text: {
                 title: {
-                    content: 'Дождитесь очереди',
-                    content_2: 'Разбейте горшок',
+                    content: 'انتظر دورك',
+                    content_2: 'اكسر الإناء',
                     content_3: 'Дождитесь окончания игры',
                     y: 50,
                     font: '21px Comic Sans MS'
                 },
                 title_2: {
-                    content: 'Сейчас выбирает горшок',
+                    content: ' الآن يقوم  باختيار الإناء',
                     y: this.cells[this.cells.length - 1].y + sprites.cell.height + 20
                 },
                 title_3: {
-                    content: 'Очередь',
+                    content: ' دور ',
                     y: this.cells[this.cells.length - 1].y + sprites.cell.height + 80
                 },
                 font: '20px Comic Sans MS',

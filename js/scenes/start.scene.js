@@ -31,7 +31,7 @@ export class StartScene {
                 y: (canvas.height - sprites.board.width) / 2 - 60 / 2,
             },
             text: {
-                content: 'Введите ваше имя',
+                content: 'أدخل اسمك',
                 font: '25px Comic Sans MS',
                 color: 'white',
                 x: (canvas.width - ctx.measureText('Введите ваше имя').width) / 4,
@@ -43,9 +43,14 @@ export class StartScene {
                 y: canvas.height - sprites.board.height
             },
             button: {
-                content: 'Участвовать в Розыгрыше',
-                color: '#4f3604',
-                y: canvas.height - sprites.board.height + 90
+                img: sprites.buttonStart,
+                content: 'شارك للحصول على الهدية',
+                color: 'white',
+                width: 300,
+                height: 40,
+                x: (canvas.width - 300) / 2,
+                y: canvas.height - sprites.board.height + 90,
+                yButton: canvas.height - sprites.board.height + 60
             },
             fatima: {
                 image: {
@@ -73,10 +78,9 @@ export class StartScene {
     }
 
     update() {
-        const buttonX = (this.canvas.width - 300) / 2;
         if (this.mouse.left && !this.mouse.pLeft) {
-            if (this.mouse.x > buttonX
-                && this.mouse.x < buttonX + 300
+            if (this.mouse.x > this.data.button.x
+                && this.mouse.x < this.data.button.x + 300
                 && this.mouse.y > this.data.button.y - 30
                 && this.mouse.y < this.data.button.y + 30) {
                 if(this.input.value.trim()) {
@@ -87,11 +91,13 @@ export class StartScene {
         }
 
         if (this.mouse.tap) {
-            if (this.mouse.touchX > buttonX
-                && this.mouse.touchX < buttonX + 143
+            if (this.mouse.touchX > this.data.button.x
+                && this.mouse.touchX < this.data.button.x + 300
                 && this.mouse.touchY > this.data.button.y - 30
                 && this.mouse.touchY < this.data.button.y + 30) {
+                console.log('btn')
                 if(this.input.value.trim()) {
+
                     app.updateUserList(this.input.value);
                     render.transitionMethod(SCENES.LIST_USERS)
                 }
@@ -115,6 +121,9 @@ export class StartScene {
         this.ctx.fillText(this.data.text.content,this.data.text.x, this.data.text.y);
         this.ctx.drawImage(this.data.backgroundInput.img, this.data.backgroundInput.x, this.data.backgroundInput.y);
         this.ctx.fillStyle = this.data.button.color;
+
+        this.button();
+
         this.ctx.fillText(this.data.button.content, (this.canvas.width - this.ctx.measureText(this.data.button.content).width) / 2, this.data.button.y);
         this.ctx.restore();
 
@@ -124,6 +133,17 @@ export class StartScene {
             //табличка с текстом Фатимы
             this.textFatima(this.data.fatima.text.content, this.opacityFatima = this.opacityFatima + 0.01, transition);
         }
+    }
+
+    button() {
+        this.ctx.save();
+        this.ctx.drawImage(
+            this.data.button.img,
+            this.data.button.x,
+            this.data.button.yButton,
+            this.data.button.width,
+            this.data.button.height)
+        this.ctx.restore();
     }
 
     fatimaImg(opacityFatima, transition) {

@@ -38,15 +38,15 @@ class GameTwoScene {
             },
             text: {
                 title_1: {
-                    content: 'Дождитесь очереди',
+                    content: 'انتظر دورك',
                     y: 50,
                 },
                 title_2: {
-                    content: 'Сейчас выбирает',
+                    content: 'الآن  قم بتحديد المُكوّن',
                     y: this.balls[0].y + sprites.ball.width + 20
                 },
                 title_3: {
-                    content: 'Очередь',
+                    content: 'دور',
                     y: this.balls[0].y + sprites.ball.width + 80
                 },
                 users: {
@@ -76,8 +76,8 @@ class GameTwoScene {
                 y: canvas.height - sprites.fatimaTextRight.height - 50
             },
             fatimaText: {
-                content: [`${users[3].user}, последний  шаг`, 'отделяет вас от выигрыша,', 'попробуйте выбрать правильный', 'ингредиент для моего', 'эликсира молодости'],
-                content_2: [`${users[3].user}, поздравляем с победой!`, 'Вы успешно выбрали', 'необходимый ингредиент', 'для эликсира!'],
+                content: [`${users[3].user}, خطوة أخيرة تفصلك `, 'عن الفوز، حاولي اختيار', 'المكون المناسب لإكسير الشباب'],
+                content_2: [`${users[3].user},  تهانينا لقد فزتي! `, 'لقد نجحتي في اختيار العنصر', 'الضروري لإكسير الشباب!'],
                 font: '14px Comic Sans MS',
                 color: '#4f3604'
             },

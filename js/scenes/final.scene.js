@@ -32,16 +32,16 @@ class FinalScene {
             },
             text: {
                 title: {
-                    content: 'Поздравляем, вы выиграли!',
+                    content: 'تهانينا، لقد فزتي!',
                     y: 50,
                     font: '20px Comic Sans MS',
                     color: 'white',
                 },
                 font: '16px Comic Sans MS',
                 color: 'green',
-                content_1: [`${configs.product} зарезервирован для вас на:`],
-                content_2: [`${this.users[3].user}, вы настоящий`, 'счастливчик победив четырех', 'участников розыгрыша.'],
-                content_3: [`Вы обеспечили себе`, 'возможность купить Tonefix', 'сегодня. Укажите ваш номер', 'телефона и наш оператор', 'перезвонит вам'],
+                content_1: [`تم حجز ${configs.product} لك على:`],
+                content_2: [`${this.users[3].user}, أنت محظوظة حقًا`, 'بفوزك على أربعة', 'مشاركين في السحب.'],
+                content_3: [`لقد مكنكِ فوزكِ من شراء`, `${configs.product} اليوم. أدخلي رقم هاتفك،`, 'وسيقوم موظف الهاتف لدينا بالاتصال بك'],
             },
             time: {
                 minutes: [0, 3],
@@ -53,7 +53,7 @@ class FinalScene {
             button: {
                 font: '20px Comic Sans MS',
                 color: 'white',
-                text: 'ЗАКАЗАТЬ СЕЙЧАС',
+                text: ' اطلبيه الآن',
                 img: sprites.button,
                 x: (canvas.width - sprites.button.width) / 2,
                 y: 470
