@@ -62,7 +62,7 @@ class GameOneScene {
             },
             users: {
                 listUsers: this.users,
-                font: '18px Comic Sans MS',
+                font: '16px Comic Sans MS',
                 color: '#4f3604'
             },
             fatima: {
@@ -79,7 +79,7 @@ class GameOneScene {
                 text: {
                     content: [''],
                     content_2: ['Отлично!', 'Вы выбрали правильный', 'горшок!', 'Дождитесь конца хода', 'всех участников'],
-                    font: '14px Comic Sans MS',
+                    font: '16px Comic Sans MS',
                     color: '#4f3604',
                     x: 30,
                     y: 440
@@ -289,7 +289,7 @@ class GameOneScene {
                     setTimeout(() => {
 
                         if (user === 4) {
-                            const text = [`В следующий раунд проходят`, `${this.data.users.listUsers[user - 1].user} и ${this.data.users.listUsers[user].user}`]
+                            const text = [`${this.currentUserName}`, `رائع، أنتي محظوظة!`, 'دور جميع المشاركين', 'يُرجى الانتظار حتى ينتهي']
                             this.setFatimaText(text)
                             setTimeout(() => {
                                 render.transitionMethod(SCENES.GAME_TWO);
@@ -415,7 +415,7 @@ class GameOneScene {
                         this.setFatimaText(this.data.users.listUsers[3].textEnd)
 
                         this.currentUserName = this.data.users.listUsers[4].user;
-                        this.data.fatima.text.content = this.data.fatima.text.content_2;
+
 
                         if(!this.gameProcess[4] && this.gameProcess[3]) {
                             this.gameBot(5000, this.random(this.cellsIndexes, this.cellsCheck), 4);

@@ -81,7 +81,7 @@ export class App {
         listUserScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.listUsers);
         gameOneScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.cells);
         gameTwoScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.balls);
-        finalScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users)
+        finalScene.init(this.canvas, this.ctx, this.mouse, this.sprites, this.users, this.inputPhone)
 
         render.init(this.ctx, this.canvas, this.mouse, this.sprites, this.inputName, this.inputPhone,
             new Router(
@@ -120,12 +120,13 @@ export class App {
                 y: startY + lineHeight * row,
                 game: false,
                 currentUser: false,
-                textStart: [`${user},  يحتوي أحد هذه الأواني `, 'على عشبة سحرية لإكسير', ' الشباب، حاولي العثور', 'عليها من خلال كسر أحد الأواني'],
+                textStart: [`${user}`,  'يحتوي أحد هذه الأواني' , 'على عشبة سحرية لإكسير', ' الشباب، حاولي العثور', 'عليها من خلال كسر أحد الأواني'],
                 textEnd: row !== 4 ?
                     [`${user}`, 'للأسف خسرتي'] :
-                    [`${user}`, 'رائع، أنتي محظوظة!', 'يُرجى الانتظار حتى ينتهي دور جميع المشاركين']
+                    [`${user}`, 'رائع، أنتي محظوظة!', 'دور جميع المشاركين', 'يُرجى الانتظار حتى ينتهي']
             }
         }
+
         return createUsers();
     }
 

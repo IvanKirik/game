@@ -65,7 +65,7 @@ export class StartScene {
                 },
                 text: {
                     content: ['جرب حظك،', `ربما ستحصل على ${configs.product}`],
-                    font: '14px Comic Sans MS',
+                    font: '20px Comic Sans MS',
                     color: '#4f3604',
                     x: 30,
                     y: 440
@@ -79,29 +79,11 @@ export class StartScene {
 
     update() {
         if (this.mouse.left && !this.mouse.pLeft) {
-            if (this.mouse.x > this.data.button.x
-                && this.mouse.x < this.data.button.x + 300
-                && this.mouse.y > this.data.button.y - 30
-                && this.mouse.y < this.data.button.y + 30) {
-                if(this.input.value.trim()) {
-                    app.updateUserList(this.input.value);
-                    render.transitionMethod(SCENES.GAME_ONE)
-                }
-            }
+            this.events('mouse')
         }
 
         if (this.mouse.tap) {
-            if (this.mouse.touchX > this.data.button.x
-                && this.mouse.touchX < this.data.button.x + 300
-                && this.mouse.touchY > this.data.button.y - 30
-                && this.mouse.touchY < this.data.button.y + 30) {
-                console.log('btn')
-                if(this.input.value.trim()) {
-
-                    app.updateUserList(this.input.value);
-                    render.transitionMethod(SCENES.LIST_USERS)
-                }
-            }
+            this.events('touch')
         }
     }
 
@@ -167,6 +149,21 @@ export class StartScene {
             margin += 15;
         });
         this.ctx.restore();
+    }
+
+    events(typeEvent) {
+        let x = typeEvent === 'mouse' ? 'x' : 'touchX';
+        let y = typeEvent === 'mouse' ? 'y' : 'touchY';
+
+        if (this.mouse[x] > this.data.button.x
+            && this.mouse[x] < this.data.button.x + 300
+            && this.mouse[y] > this.data.button.y - 30
+            && this.mouse[y] < this.data.button.y + 30) {
+            if(this.input.value.trim()) {
+                app.updateUserList(this.input.value);
+                render.transitionMethod(SCENES.LIST_USERS)
+            }
+        }
     }
 
 }

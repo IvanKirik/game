@@ -7,17 +7,19 @@ class FinalScene {
     sprites = null;
     users = null;
     durationTimer = 3;
+    inputPhone = null;
 
     constructor(canvas, ctx, mouse, sprites) {
 
     }
 
-    init(canvas, ctx, mouse, sprites, users) {
+    init(canvas, ctx, mouse, sprites, users, input) {
         this.canvas = canvas;
         this.ctx = ctx;
         this.mouse = mouse;
         this.sprites = sprites;
         this.users = users;
+        this.inputPhone = input;
 
         this.data = {
             board: {
@@ -37,7 +39,7 @@ class FinalScene {
                     font: '20px Comic Sans MS',
                     color: 'white',
                 },
-                font: '16px Comic Sans MS',
+                font: '20px Comic Sans MS',
                 color: 'green',
                 content_1: [`تم حجز ${configs.product} لك على:`],
                 content_2: [`${this.users[3].user}, أنت محظوظة حقًا`, 'بفوزك على أربعة', 'مشاركين في السحب.'],
@@ -68,6 +70,14 @@ class FinalScene {
         if(this.data.time.count < 1) {
             this.timer();
             this.data.time.count++
+        }
+
+        if (this.mouse.left && !this.mouse.pLeft) {
+            this.events('mouse')
+        }
+
+        if (this.mouse.tap) {
+            this.events('touch')
         }
     }
 
@@ -163,6 +173,20 @@ class FinalScene {
                 this.timerEnd = true;
             }
         }, 1000);
+    }
+
+    events(typeEvent) {
+        let x = typeEvent === 'mouse' ? 'x' : 'touchX';
+        let y = typeEvent === 'mouse' ? 'y' : 'touchY';
+
+        if (this.mouse[x] > this.data.button.x
+            && this.mouse[x] < this.data.button.x + 300
+            && this.mouse[y] > this.data.button.y - 50
+            && this.mouse[y] < this.data.button.y + 50) {
+            if(this.inputPhone.value.trim()) {
+               console.log(this.inputPhone.value)
+            }
+        }
     }
 }
 

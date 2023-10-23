@@ -58,10 +58,9 @@ export class ListUsersScene {
                     y: 600
                 },
                 text: {
-
                     content: ['نحن بانتظار تجمُّ ', '5 مشاركين.'],
                     content_2: [' بمجرد تجمّع كل المشاركين،', ' تبدأ اللعبة'],
-                    font: '14px Comic Sans MS',
+                    font: '20px Comic Sans MS',
                     color: '#4f3604',
                     x: 30,
                     y: 440
