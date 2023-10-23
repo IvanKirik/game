@@ -39,7 +39,7 @@ class FinalScene {
                     font: '20px Comic Sans MS',
                     color: 'white',
                 },
-                font: '20px Comic Sans MS',
+                font: '22px Comic Sans MS',
                 color: 'green',
                 content_1: [`تم حجز ${configs.product} لك على:`],
                 content_2: [`${this.users[3].user}, أنت محظوظة حقًا`, 'بفوزك على أربعة', 'مشاركين في السحب.'],
@@ -115,7 +115,7 @@ class FinalScene {
         this.ctx.fillStyle = this.data.text.color;
         this.ctx.textAlign = 'center';
         this.ctx.fillText(this.data.text.content_1, x, this.data.text.title.y + 40);
-        let margin = 20;
+        let margin = 30;
         this.data.text.content_2.forEach(item => {
             this.ctx.fillText(item, x, this.data.text.title.y + 150 + margin);
             margin += 15;

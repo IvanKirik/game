@@ -334,6 +334,12 @@ class GameTwoScene {
         this.ctx.textAlign = 'center';
         this.ctx.fillText(this.data.text.users.listUsers[3].user, x, this.data.text.title_2.y + 30);
         this.ctx.fillText(`${this.data.text.users.listUsers[3].row}. ${this.data.text.users.listUsers[3].user}`, x, this.data.text.users.user1Y);
+        this.ctx.drawImage(
+            this.sprites.star,
+            this.canvas.width / 2 - this.ctx.measureText(`${this.data.text.users.listUsers[3].row}. ${this.data.text.users.listUsers[3].user}`).width,
+            this.data.text.users.user1Y - 20,
+            25,
+            25)
         this.ctx.fillText(`${this.data.text.users.listUsers[4].row}. ${this.data.text.users.listUsers[4].user}`, x, this.data.text.users.user2Y);
     }
 

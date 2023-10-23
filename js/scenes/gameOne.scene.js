@@ -15,7 +15,7 @@ class GameOneScene {
     constructor() {
         this.gameProcess = [false, false, false, false, false];
         this.cellsIndexes = [0, 1, 2, 3, 4, 5, 6, 7, 8];
-        this.cellsCheck = [2, 4, 5];
+        this.cellsCheck = [];
         this.angle = 0.1;
         this.opacityFatima = 0;
         this.hammerCount = 0;
@@ -127,17 +127,17 @@ class GameOneScene {
 
         //описывает логику игры ботами
         if (!this.gameProcess[0] && !this.gameProcess[1] && this.counterMessage === 0) {
-            this.gameBot(5000, 2, 0) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
+            this.gameBot(this.random(this.cellsIndexes, this.cellsCheck), 0) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
             this.counterMessage++;
         }
 
         if (!this.gameProcess[1] && this.gameProcess[0] && this.counterMessage === 1) {
-            this.gameBot(5000, 4, 1) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
+            this.gameBot( this.random(this.cellsIndexes, this.cellsCheck), 1) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
             this.counterMessage++;
         }
 
         if (!this.gameProcess[2] && this.gameProcess[1] && this.counterMessage === 2) {
-            this.gameBot(5000, 5, 2) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
+            this.gameBot( this.random(this.cellsIndexes, this.cellsCheck), 2) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
             this.counterMessage++;
         }
 
@@ -233,7 +233,7 @@ class GameOneScene {
             if (index === 3) {
                 this.ctx.drawImage(
                     this.sprites.star,
-                    (this.canvas.width - this.ctx.measureText(userName).width) / 2 + this.ctx.measureText(userName).width + 5,
+                    this.canvas.width / 2 - this.ctx.measureText(userName).width + 15,
                     this.cells[this.cells.length - 1].y + this.sprites.cell.height + 80 + user.row * margin - (this.sprites.star.height / 2) + 5, 25, 25);
             }
         })
@@ -274,7 +274,8 @@ class GameOneScene {
         this.ctx.restore();
     }
 
-    gameBot(delay, number, user) {
+    gameBot(number, user) {
+        this.cellsCheck.push(number);
         let counter = 0;
         let currentUser = this.data.users.listUsers[user]
 
@@ -282,18 +283,17 @@ class GameOneScene {
             return new Promise(resolve => setTimeout(resolve, delay));
         }
 
-        timeout(2000).then(() => {
+        timeout(this.randomTime(3, 6)).then(() => {
             //устанавливаем стартовый текст для бота
             if(counter === 0) {
                 this.setFatimaText(currentUser.textStart)
                 counter++
             }
-
-            return timeout(2100);
+            return timeout(this.randomTime(3, 7));
         }).then(() => {
             this.transHammer(number);
             if (this.check(number)) {
-                return timeout(2200);
+                return timeout(this.randomTime(3, 7));
             }
         }).then(() => {
             if (this.hammerCount === user) {
@@ -308,7 +308,7 @@ class GameOneScene {
             this.cells[number].grass = user === 4;
             this.cells[number].vase = this.sprites[vase];
             this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2)
-            return timeout(2300);
+            return timeout(this.randomTime(2, 5));
         }).then(() => {
             if (user === 4) {
                 const text = [`${this.currentUserName}, رائع، أنتي محظوظة!`, 'دور جميع المشاركين', 'يُرجى الانتظار حتى ينتهي'];
@@ -331,7 +331,7 @@ class GameOneScene {
                     this.setFatimaText(currentUser.textEnd)
                 }
             }
-            return timeout(1500);
+            return timeout(this.randomTime(3, 6));
         })
     }
 
@@ -342,6 +342,10 @@ class GameOneScene {
             randomNum = arrDefault[Math.floor(Math.random() * arrDefault.length)];
         } while (numbersInArr2.has(randomNum));
         return randomNum;
+    }
+
+    randomTime(min, max) {
+        return (Math.floor(Math.random() * (max - min + 1)) + min) * 1000;
     }
 
     check(numberCell) {
@@ -420,7 +424,7 @@ class GameOneScene {
                 && this.mouse[x] < cell.x + this.sprites.cell.width
                 && this.mouse[y] > cell.y
                 && this.mouse[y] < cell.y + this.sprites.cell.width) {
-                if (index !== 2 && index !== 4 && index !== 5) {
+                if (!this.cellsCheck.includes(index)) {
                     this.cellsCheck.push(index);
                     cell.background = this.sprites.goldCell;
                     const vase = `vase_drop_green_${cell.id}`
@@ -434,7 +438,7 @@ class GameOneScene {
                         this.currentUserName = this.data.users.listUsers[4].user;
 
                         if(!this.gameProcess[4] && this.gameProcess[3]) {
-                            this.gameBot(5000, this.random(this.cellsIndexes, this.cellsCheck), 4);
+                            this.gameBot( this.random(this.cellsIndexes, this.cellsCheck), 4);
                         }
                     }, 500)
                 }
