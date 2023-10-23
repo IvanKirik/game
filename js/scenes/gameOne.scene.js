@@ -10,7 +10,7 @@ class GameOneScene {
     cells = null;
     currentUserName = null;
     startTime = null;
-    delay = 1900;
+    delay = 2000;
 
     constructor() {
         this.gameProcess = [false, false, false, false, false];
@@ -44,7 +44,7 @@ class GameOneScene {
                 title: {
                     content: 'انتظر دورك',
                     content_2: 'اكسر الإناء',
-                    content_3: 'Дождитесь окончания игры',
+                    content_3: 'يتوقع',
                     y: 50,
                     font: '21px Comic Sans MS'
                 },
@@ -78,7 +78,6 @@ class GameOneScene {
                 },
                 text: {
                     content: [''],
-                    content_2: ['Отлично!', 'Вы выбрали правильный', 'горшок!', 'Дождитесь конца хода', 'всех участников'],
                     font: '16px Comic Sans MS',
                     color: '#4f3604',
                     x: 30,
@@ -94,6 +93,7 @@ class GameOneScene {
         }
 
         this.currentUserName = this.data.users.listUsers[0].user;
+        this.counterMessage = 0;
     }
 
     checkUser() {
@@ -126,17 +126,27 @@ class GameOneScene {
         }
 
         //описывает логику игры ботами
-        if (!this.gameProcess[0] && !this.gameProcess[1]) {
+        if (!this.gameProcess[0] && !this.gameProcess[1] && this.counterMessage === 0) {
             this.gameBot(5000, 2, 0) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
+            this.counterMessage++;
         }
 
-        if (!this.gameProcess[1] && this.gameProcess[0]) {
+        if (!this.gameProcess[1] && this.gameProcess[0] && this.counterMessage === 1) {
             this.gameBot(5000, 4, 1) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
+            this.counterMessage++;
         }
 
-        if(!this.gameProcess[2] && this.gameProcess[1]) {
+        if (!this.gameProcess[2] && this.gameProcess[1] && this.counterMessage === 2) {
             this.gameBot(5000, 5, 2) //Первым параметром задаем время хода, вторым - индекс ячейки, третьим - индекс юзера
+            this.counterMessage++;
         }
+
+        if (this.gameProcess[2] && !this.gameProcess[3] &&this.counterMessage === 3) {
+            this.setFatimaText(this.data.users.listUsers[3].textStart)
+            this.counterMessage++;
+        }
+
+
     }
 
     render(opacity, timeStamp) {
@@ -159,9 +169,12 @@ class GameOneScene {
         //Текущий юзер
         this.currentUser(this.currentUserName, this.canvas.width / 2, this.data.text.title_2.y + 30);
 
-        if (progress > this.delay - 1000) {
+        if (progress > this.delay - 1500) {
             //Отрисовываем фатиму
             this.fatimaImg(this.opacityFatima = this.opacityFatima + 0.01);
+        }
+
+        if (progress > this.delay - 1000) {
             //табличка с текстом Фатимы
             this.textFatima(this.data.fatima.text.content, this.opacityFatima = this.opacityFatima + 0.01);
         }
@@ -179,7 +192,6 @@ class GameOneScene {
         } else if (this.gameProcess[3] && !this.gameProcess[4] || this.gameProcess[4]) {
             tittle = this.data.text.title.content_3;
         }
-
 
         this.ctx.drawImage(this.data.titleImage.img, this.data.titleImage.x, this.data.titleImage.y);
 
@@ -264,56 +276,63 @@ class GameOneScene {
 
     gameBot(delay, number, user) {
         let counter = 0;
-        setTimeout(() => {
+        let currentUser = this.data.users.listUsers[user]
+
+        function timeout(delay) {
+            return new Promise(resolve => setTimeout(resolve, delay));
+        }
+
+        timeout(2000).then(() => {
             //устанавливаем стартовый текст для бота
-            if (this.currentUserName === this.data.users.listUsers[user].user && counter === 0) {
-                this.setFatimaText(this.data.users.listUsers[user].textStart);
+            if(counter === 0) {
+                this.setFatimaText(currentUser.textStart)
                 counter++
             }
+
+            return timeout(2100);
+        }).then(() => {
             this.transHammer(number);
             if (this.check(number)) {
-                setTimeout(() => {
-                    if (this.hammerCount === user) {
-                        this.hammerCount++
-                        this.hitHammer();
-                    } else if (user === 4) {
-                        this.hitHammer();
-                    }
-
-                    this.cells[number].background = user === 4 ? this.sprites.goldCell : this.sprites.redCell;
-                    const vase = user === 4 ? `vase_drop_green_${this.cells[number].id}` : `vase_drop_${this.cells[number].id}`;
-                    this.cells[number].grass = user === 4;
-                    this.cells[number].vase = this.sprites[vase];
-                    this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2)
-
-                    setTimeout(() => {
-
-                        if (user === 4) {
-                            const text = [`${this.currentUserName}`, `رائع، أنتي محظوظة!`, 'دور جميع المشاركين', 'يُرجى الانتظار حتى ينتهي']
-                            this.setFatimaText(text)
-                            setTimeout(() => {
-                                render.transitionMethod(SCENES.GAME_TWO);
-                            }, 3000)
-                        } else {
-                            this.data.users.listUsers[user].game = true;
-                            if (this.data.users.listUsers[user].currentUser) {
-                                this.data.users.listUsers[user].currentUser = false;
-                            }
-
-                            this.data.users.listUsers[user + 1].currentUser = true;
-                            this.currentUserName = this.data.users.listUsers[user + 1].user;
-
-                            this.gameProcess[user] = true;
-
-                            //устанавливаем конечный текст для бота
-                            if(this.currentUserName === this.data.users.listUsers[user + 1].user && counter === 1) {
-                                this.setFatimaText(this.data.users.listUsers[user].textEnd)
-                            }
-                        }
-                    }, 1500);
-                }, 2000);
+                return timeout(2200);
             }
-        }, delay)
+        }).then(() => {
+            if (this.hammerCount === user) {
+                this.hammerCount++
+                this.hitHammer();
+            } else if (user === 4) {
+                this.hitHammer();
+            }
+
+            this.cells[number].background = user === 4 ? this.sprites.goldCell : this.sprites.redCell;
+            const vase = user === 4 ? `vase_drop_green_${this.cells[number].id}` : `vase_drop_${this.cells[number].id}`;
+            this.cells[number].grass = user === 4;
+            this.cells[number].vase = this.sprites[vase];
+            this.ctx.drawImage(this.sprites.grass, (this.sprites.cell.width - this.sprites.grass.width) / 2, (this.sprites.cell.height - this.sprites.grass.height) / 2)
+            return timeout(2300);
+        }).then(() => {
+            if (user === 4) {
+                const text = [`${this.currentUserName}, رائع، أنتي محظوظة!`, 'دور جميع المشاركين', 'يُرجى الانتظار حتى ينتهي'];
+                this.setFatimaText(text)
+                setTimeout(render.transitionMethod.bind(render, SCENES.GAME_TWO), 3000)
+            } else {
+                this.data.users.listUsers[user].game = true;
+
+                if (this.data.users.listUsers[user].currentUser) {
+                    this.data.users.listUsers[user].currentUser = false;
+                }
+
+                this.data.users.listUsers[user + 1].currentUser = true;
+
+                this.currentUserName = this.data.users.listUsers[user + 1].user;
+
+                this.gameProcess[user] = true;
+
+                if(counter === 1) {
+                    this.setFatimaText(currentUser.textEnd)
+                }
+            }
+            return timeout(1500);
+        })
     }
 
     random(arrDefault, arrCheck) {
@@ -396,8 +415,6 @@ class GameOneScene {
         this.data.hammer.x = this.mouse[x];
         this.data.hammer.y = this.mouse[y];
 
-        this.setFatimaText(this.data.users.listUsers[3].textStart)
-
         this.data.cells.forEach((cell, index) => {
             if (this.mouse[x] > cell.x
                 && this.mouse[x] < cell.x + this.sprites.cell.width
@@ -415,7 +432,6 @@ class GameOneScene {
                         this.setFatimaText(this.data.users.listUsers[3].textEnd)
 
                         this.currentUserName = this.data.users.listUsers[4].user;
-
 
                         if(!this.gameProcess[4] && this.gameProcess[3]) {
                             this.gameBot(5000, this.random(this.cellsIndexes, this.cellsCheck), 4);

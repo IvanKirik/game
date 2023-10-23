@@ -129,7 +129,7 @@ export class ListUsersScene {
                 if (index === 3) {
                     this.ctx.drawImage(
                         this.sprites.star,
-                        user.x + this.ctx.measureText(`${user.row}. ${user.user}`).width + 50,
+                        user.x - this.ctx.measureText(`${user.row}. ${user.user}`).width + 200,
                         user.y - (this.sprites.star.height / 2) + 5, 25, 25);
                 }
             }
